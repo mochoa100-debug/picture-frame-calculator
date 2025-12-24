@@ -312,7 +312,9 @@ input:focus {
 .frame-visual__dimension--height {
   top: 50%;
   right: calc(-1 * var(--label-gap));
-  transform: translate(100%, -50%);
+  transform: translate(50%, -50%);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 .hidden {
