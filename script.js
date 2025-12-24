@@ -1,4 +1,5 @@
 ﻿const state = {
+  unit: "imperial",
   inputs: {
     artworkWidth: { raw: "", value: null, parseError: "" },
     artworkHeight: { raw: "", value: null, parseError: "" },
@@ -35,6 +36,10 @@ const inputElements = {
   clearance: document.querySelector("#clearance")
 };
 
+const unitInputs = document.querySelectorAll("input[name='measurementUnit']");
+const unitLabelSpans = document.querySelectorAll("[data-unit-label]");
+const unitShortSpans = document.querySelectorAll("[data-unit-short]");
+
 const errorElements = {
   artworkWidth: document.querySelector("[data-error-for='artworkWidth']"),
   artworkHeight: document.querySelector("[data-error-for='artworkHeight']"),
@@ -55,6 +60,28 @@ const resultsFields = {
 
 const copyBtn = document.querySelector("#copyBtn");
 const copyStatus = document.querySelector("#copyStatus");
+
+const UNIT_CONFIG = {
+  imperial: {
+    label: "inches",
+    short: "in",
+    decimals: 3
+  },
+  metric: {
+    label: "centimeters",
+    short: "cm",
+    decimals: 2
+  }
+};
+
+const INCH_TO_CM = 2.54;
+
+function convertValue(value, fromUnit, toUnit) {
+  if (fromUnit === toUnit) {
+    return value;
+  }
+  return fromUnit === "imperial" ? value * INCH_TO_CM : value / INCH_TO_CM;
+}
 
 function parseNumericInput(rawValue) {
   if (rawValue.trim() === "") {
@@ -153,7 +180,22 @@ function calculateDerived() {
 }
 
 function formatNumber(value) {
-  return value.toFixed(3);
+  return value.toFixed(UNIT_CONFIG[state.unit].decimals);
+}
+
+function formatInputValue(value) {
+  const formatted = formatNumber(value);
+  return formatted.replace(/\.?0+$/, "");
+}
+
+function updateUnitLabels() {
+  const config = UNIT_CONFIG[state.unit];
+  unitLabelSpans.forEach((node) => {
+    node.textContent = config.label;
+  });
+  unitShortSpans.forEach((node) => {
+    node.textContent = config.short;
+  });
 }
 
 function updateResultsUI() {
@@ -214,17 +256,18 @@ function buildCopyText() {
   const ofh = formatNumber(state.derived.outsideFrameHeight);
   const rail = formatNumber(state.derived.railCutLength);
   const stile = formatNumber(state.derived.stileCutLength);
+  const unitShort = UNIT_CONFIG[state.unit].short;
 
   return [
     "Cut List — Outside Edge (Long Point to Long Point)",
-    `Rails (Top & Bottom, Qty 2): ${rail} in`,
-    `Stiles (Left & Right, Qty 2): ${stile} in`,
+    `Rails (Top & Bottom, Qty 2): ${rail} ${unitShort}`,
+    `Stiles (Left & Right, Qty 2): ${stile} ${unitShort}`,
     "",
     "Inside Opening (fits artwork, glass, backing):",
-    `${iow} in × ${ioh} in`,
+    `${iow} ${unitShort} × ${ioh} ${unitShort}`,
     "",
     "Outside Frame Size (overall frame size):",
-    `${ofw} in × ${ofh} in`
+    `${ofw} ${unitShort} × ${ofh} ${unitShort}`
   ].join("\n");
 }
 
@@ -267,8 +310,50 @@ async function copyToClipboard() {
   }
 }
 
+function handleUnitChange(event) {
+  const nextUnit = event.target.value;
+  if (!UNIT_CONFIG[nextUnit] || nextUnit === state.unit) {
+    return;
+  }
+
+  const previousUnit = state.unit;
+  state.unit = nextUnit;
+  updateUnitLabels();
+
+  Object.entries(state.inputs).forEach(([key, input]) => {
+    if (input.value === null) {
+      return;
+    }
+
+    const converted = convertValue(input.value, previousUnit, nextUnit);
+    input.value = converted;
+    input.raw = formatInputValue(converted);
+    input.parseError = "";
+    inputElements[key].value = input.raw;
+  });
+
+  validateInputs();
+
+  const hasValues = hasAllRequiredValues();
+  const hasErrors = hasAnyErrors();
+
+  if (hasValues && !hasErrors) {
+    calculateDerived();
+    state.ui.hasValidResults = true;
+  } else {
+    state.ui.hasValidResults = false;
+  }
+
+  updateErrorUI();
+  updateResultsUI();
+}
+
 Object.values(inputElements).forEach((input) => {
   input.addEventListener("input", handleInputChange);
+});
+
+unitInputs.forEach((input) => {
+  input.addEventListener("change", handleUnitChange);
 });
 
 copyBtn.addEventListener("click", () => {
@@ -279,3 +364,4 @@ copyBtn.addEventListener("click", () => {
 });
 
 handleInputChange({ target: inputElements.clearance });
+updateUnitLabels();
