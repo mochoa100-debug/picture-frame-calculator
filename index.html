@@ -13,15 +13,29 @@
       <p class="subheader">Outside Edge • Long Point to Long Point</p>
     </header>
 
+    <section class="card unit-toggle">
+      <h2>Measurements</h2>
+      <div class="toggle-group" role="radiogroup" aria-label="Measurement units">
+        <label class="toggle-option">
+          <input type="radio" name="measurementUnit" value="imperial" checked />
+          <span>Imperial (in)</span>
+        </label>
+        <label class="toggle-option">
+          <input type="radio" name="measurementUnit" value="metric" />
+          <span>Metric (cm)</span>
+        </label>
+      </div>
+    </section>
+
     <section class="card">
       <h2>Artwork Size</h2>
       <div class="field">
-        <label for="artworkWidth">Artwork Width (inches)</label>
+        <label for="artworkWidth">Artwork Width (<span data-unit-label>inches</span>)</label>
         <input id="artworkWidth" name="artworkWidth" type="number" inputmode="decimal" step="any" min="0" />
         <p class="error-msg" data-error-for="artworkWidth" aria-live="polite"></p>
       </div>
       <div class="field">
-        <label for="artworkHeight">Artwork Height (inches)</label>
+        <label for="artworkHeight">Artwork Height (<span data-unit-label>inches</span>)</label>
         <input id="artworkHeight" name="artworkHeight" type="number" inputmode="decimal" step="any" min="0" />
         <p class="error-msg" data-error-for="artworkHeight" aria-live="polite"></p>
       </div>
@@ -30,17 +44,17 @@
     <section class="card">
       <h2>Frame Details</h2>
       <div class="field">
-        <label for="mouldingFaceWidth">Moulding Face Width (inches)</label>
+        <label for="mouldingFaceWidth">Moulding Face Width (<span data-unit-label>inches</span>)</label>
         <input id="mouldingFaceWidth" name="mouldingFaceWidth" type="number" inputmode="decimal" step="any" min="0" />
         <p class="error-msg" data-error-for="mouldingFaceWidth" aria-live="polite"></p>
       </div>
       <div class="field">
-        <label for="rabbetDepth">Rabbet Depth (inches)</label>
+        <label for="rabbetDepth">Rabbet Depth (<span data-unit-label>inches</span>)</label>
         <input id="rabbetDepth" name="rabbetDepth" type="number" inputmode="decimal" step="any" min="0" />
         <p class="error-msg" data-error-for="rabbetDepth" aria-live="polite"></p>
       </div>
       <div class="field">
-        <label for="clearance">Clearance / Wiggle Room (inches)</label>
+        <label for="clearance">Clearance / Wiggle Room (<span data-unit-label>inches</span>)</label>
         <p class="helper">Total added to width and height.</p>
         <input id="clearance" name="clearance" type="number" inputmode="decimal" step="any" min="0" value="0.125" />
         <p class="error-msg" data-error-for="clearance" aria-live="polite"></p>
@@ -51,14 +65,14 @@
 
     <section id="results" class="card results hidden" aria-live="polite">
       <h2>Inside Opening (fits artwork, glass, backing)</h2>
-      <p class="value-line">Width: <span id="insideOpeningWidth">--</span> in, Height: <span id="insideOpeningHeight">--</span> in</p>
+      <p class="value-line">Width: <span id="insideOpeningWidth">--</span> <span data-unit-short>in</span>, Height: <span id="insideOpeningHeight">--</span> <span data-unit-short>in</span></p>
 
       <h2>Outside Frame Size (overall frame size)</h2>
-      <p class="value-line">Width: <span id="outsideFrameWidth">--</span> in, Height: <span id="outsideFrameHeight">--</span> in</p>
+      <p class="value-line">Width: <span id="outsideFrameWidth">--</span> <span data-unit-short>in</span>, Height: <span id="outsideFrameHeight">--</span> <span data-unit-short>in</span></p>
 
       <h2>Cut List — Outside Edge (long point to long point)</h2>
-      <p class="value-line">Rails (Top &amp; Bottom, Qty 2): <span id="railCutLength">--</span> in</p>
-      <p class="value-line">Stiles (Left &amp; Right, Qty 2): <span id="stileCutLength">--</span> in</p>
+      <p class="value-line">Rails (Top &amp; Bottom, Qty 2): <span id="railCutLength">--</span> <span data-unit-short>in</span></p>
+      <p class="value-line">Stiles (Left &amp; Right, Qty 2): <span id="stileCutLength">--</span> <span data-unit-short>in</span></p>
 
       <div class="copy-row">
         <button id="copyBtn" type="button" class="primary" disabled>Copy Cut List</button>

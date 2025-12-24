@@ -64,6 +64,33 @@ h1 {
   font-size: 1.1rem;
 }
 
+.toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff8f1;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.toggle-option input {
+  accent-color: var(--accent);
+}
+
+.toggle-option:has(input:focus-visible) {
+  outline: 2px solid rgba(156, 91, 46, 0.25);
+  outline-offset: 2px;
+}
+
 .field {
   display: flex;
   flex-direction: column;
