@@ -83,9 +83,58 @@ function convertValue(value, fromUnit, toUnit) {
   return fromUnit === "imperial" ? value * INCH_TO_CM : value / INCH_TO_CM;
 }
 
+function parseImperialInput(rawValue) {
+  const cleaned = rawValue.trim();
+  if (cleaned === "") {
+    return { value: null, error: "" };
+  }
+
+  const parts = cleaned.split(" ").filter(Boolean);
+  if (parts.length > 2) {
+    return { value: null, error: "Enter a valid number." };
+  }
+
+  let whole = 0;
+  let fractionPart = "";
+
+  if (parts.length === 2) {
+    whole = Number.parseFloat(parts[0]);
+    if (!Number.isFinite(whole)) {
+      return { value: null, error: "Enter a valid number." };
+    }
+    fractionPart = parts[1];
+  } else if (parts.length === 1 && parts[0].includes("/")) {
+    fractionPart = parts[0];
+  } else {
+    const parsed = Number.parseFloat(cleaned);
+    if (!Number.isFinite(parsed)) {
+      return { value: null, error: "Enter a valid number." };
+    }
+    return { value: parsed, error: "" };
+  }
+
+  const fractionPieces = fractionPart.split("/");
+  if (fractionPieces.length !== 2) {
+    return { value: null, error: "Enter a valid number." };
+  }
+
+  const numerator = Number.parseInt(fractionPieces[0], 10);
+  const denominator = Number.parseInt(fractionPieces[1], 10);
+
+  if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) {
+    return { value: null, error: "Enter a valid number." };
+  }
+
+  return { value: whole + numerator / denominator, error: "" };
+}
+
 function parseNumericInput(rawValue) {
   if (rawValue.trim() === "") {
     return { value: null, error: "" };
+  }
+
+  if (state.unit === "imperial") {
+    return parseImperialInput(rawValue);
   }
 
   const parsed = Number.parseFloat(rawValue);
@@ -179,13 +228,59 @@ function calculateDerived() {
   };
 }
 
-function formatNumber(value) {
+function formatDecimalValue(value) {
   return value.toFixed(UNIT_CONFIG[state.unit].decimals);
 }
 
 function formatInputValue(value) {
-  const formatted = formatNumber(value);
+  const formatted = formatDecimalValue(value);
   return formatted.replace(/\.?0+$/, "");
+}
+
+function gcd(a, b) {
+  let x = Math.abs(a);
+  let y = Math.abs(b);
+  while (y) {
+    const temp = y;
+    y = x % y;
+    x = temp;
+  }
+  return x;
+}
+
+function formatImperialResult(value) {
+  const rounded = Math.ceil(value * 16) / 16;
+  const whole = Math.floor(rounded);
+  const fraction = rounded - whole;
+  let numerator = Math.round(fraction * 16);
+  let denominator = 16;
+
+  let adjustedWhole = whole;
+  if (numerator === denominator) {
+    adjustedWhole += 1;
+    numerator = 0;
+  }
+
+  if (numerator === 0) {
+    return `${adjustedWhole}`;
+  }
+
+  const divisor = gcd(numerator, denominator);
+  numerator /= divisor;
+  denominator /= divisor;
+
+  if (adjustedWhole === 0) {
+    return `${numerator}/${denominator}`;
+  }
+
+  return `${adjustedWhole} ${numerator}/${denominator}`;
+}
+
+function formatResultValue(value) {
+  if (state.unit === "imperial") {
+    return formatImperialResult(value);
+  }
+  return formatDecimalValue(value);
 }
 
 function updateUnitLabels() {
@@ -208,12 +303,12 @@ function updateResultsUI() {
   resultsSection.classList.remove("hidden");
   copyBtn.disabled = false;
 
-  resultsFields.insideOpeningWidth.textContent = formatNumber(state.derived.insideOpeningWidth);
-  resultsFields.insideOpeningHeight.textContent = formatNumber(state.derived.insideOpeningHeight);
-  resultsFields.outsideFrameWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
-  resultsFields.outsideFrameHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
-  resultsFields.railCutLength.textContent = formatNumber(state.derived.railCutLength);
-  resultsFields.stileCutLength.textContent = formatNumber(state.derived.stileCutLength);
+  resultsFields.insideOpeningWidth.textContent = formatResultValue(state.derived.insideOpeningWidth);
+  resultsFields.insideOpeningHeight.textContent = formatResultValue(state.derived.insideOpeningHeight);
+  resultsFields.outsideFrameWidth.textContent = formatResultValue(state.derived.outsideFrameWidth);
+  resultsFields.outsideFrameHeight.textContent = formatResultValue(state.derived.outsideFrameHeight);
+  resultsFields.railCutLength.textContent = formatResultValue(state.derived.railCutLength);
+  resultsFields.stileCutLength.textContent = formatResultValue(state.derived.stileCutLength);
 }
 
 function updateErrorUI() {
@@ -250,12 +345,12 @@ function handleInputChange(event) {
 }
 
 function buildCopyText() {
-  const iow = formatNumber(state.derived.insideOpeningWidth);
-  const ioh = formatNumber(state.derived.insideOpeningHeight);
-  const ofw = formatNumber(state.derived.outsideFrameWidth);
-  const ofh = formatNumber(state.derived.outsideFrameHeight);
-  const rail = formatNumber(state.derived.railCutLength);
-  const stile = formatNumber(state.derived.stileCutLength);
+  const iow = formatResultValue(state.derived.insideOpeningWidth);
+  const ioh = formatResultValue(state.derived.insideOpeningHeight);
+  const ofw = formatResultValue(state.derived.outsideFrameWidth);
+  const ofh = formatResultValue(state.derived.outsideFrameHeight);
+  const rail = formatResultValue(state.derived.railCutLength);
+  const stile = formatResultValue(state.derived.stileCutLength);
   const unitShort = UNIT_CONFIG[state.unit].short;
 
   return [
