@@ -68,19 +68,19 @@ const UNIT_CONFIG = {
     decimals: 3
   },
   metric: {
-    label: "centimeters",
-    short: "cm",
-    decimals: 2
+    label: "millimeters",
+    short: "mm",
+    decimals: 0
   }
 };
 
-const INCH_TO_CM = 2.54;
+const INCH_TO_MM = 25.4;
 
 function convertValue(value, fromUnit, toUnit) {
   if (fromUnit === toUnit) {
     return value;
   }
-  return fromUnit === "imperial" ? value * INCH_TO_CM : value / INCH_TO_CM;
+  return fromUnit === "imperial" ? value * INCH_TO_MM : value / INCH_TO_MM;
 }
 
 function parseNumericInput(rawValue) {
@@ -180,6 +180,9 @@ function calculateDerived() {
 }
 
 function formatNumber(value) {
+  if (state.unit === "metric") {
+    return String(Math.ceil(value));
+  }
   return value.toFixed(UNIT_CONFIG[state.unit].decimals);
 }
 
