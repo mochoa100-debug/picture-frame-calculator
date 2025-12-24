@@ -78,6 +78,22 @@
         <button id="copyBtn" type="button" class="primary" disabled>Copy Cut List</button>
         <span id="copyStatus" class="copy-status" role="status" aria-live="polite"></span>
       </div>
+
+      <div class="frame-visual">
+        <h2>Outside Frame Visual</h2>
+        <p class="helper">Outside dimensions are marked to match the cut list.</p>
+        <div class="frame-visual__diagram" role="img" aria-label="Outside frame size diagram with width and height markings.">
+          <div class="frame-visual__dimension frame-visual__dimension--width">
+            <span>Outside Width: <span id="frameVisualWidth">--</span> <span data-unit-short>in</span></span>
+          </div>
+          <div class="frame-visual__dimension frame-visual__dimension--height">
+            <span>Outside Height: <span id="frameVisualHeight">--</span> <span data-unit-short>in</span></span>
+          </div>
+          <div class="frame-visual__outer">
+            <div class="frame-visual__inner"></div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 

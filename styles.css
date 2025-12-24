@@ -176,6 +176,66 @@ input:focus {
   color: var(--accent);
 }
 
+.frame-visual {
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.frame-visual__diagram {
+  margin-top: 6px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  padding: 28px 36px;
+  background: #fff8f1;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.frame-visual__outer {
+  width: min(320px, 80vw);
+  aspect-ratio: 4 / 3;
+  border: 3px solid var(--accent);
+  border-radius: 8px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #fff;
+}
+
+.frame-visual__inner {
+  width: 70%;
+  height: 70%;
+  border: 2px solid rgba(156, 91, 46, 0.35);
+  border-radius: 6px;
+  background: rgba(156, 91, 46, 0.05);
+}
+
+.frame-visual__dimension {
+  position: absolute;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: #fffdf9;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 14px rgba(27, 20, 16, 0.08);
+}
+
+.frame-visual__dimension--width {
+  top: 10px;
+}
+
+.frame-visual__dimension--height {
+  right: 10px;
+  transform: rotate(90deg);
+  transform-origin: top right;
+}
+
 .hidden {
   display: none;
 }
