@@ -60,6 +60,17 @@ const resultsFields = {
   frameVisualHeight: document.querySelector("#frameVisualHeight")
 };
 
+const boardLayout = {
+  diagram: document.querySelector(".board-layout__diagram"),
+  board: document.querySelector(".board-layout__board"),
+  blanks: {
+    stileLeft: document.querySelector("[data-blank='stile-left']"),
+    railTop: document.querySelector("[data-blank='rail-top']"),
+    railBottom: document.querySelector("[data-blank='rail-bottom']"),
+    stileRight: document.querySelector("[data-blank='stile-right']")
+  }
+};
+
 const copyBtn = document.querySelector("#copyBtn");
 const copyStatus = document.querySelector("#copyStatus");
 
@@ -221,6 +232,7 @@ function updateResultsUI() {
   resultsFields.stileCutLength.textContent = formatNumber(state.derived.stileCutLength);
   resultsFields.frameVisualWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
   resultsFields.frameVisualHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
+  updateBoardLayout();
 }
 
 function updateErrorUI() {
@@ -254,6 +266,72 @@ function handleInputChange(event) {
 
   updateErrorUI();
   updateResultsUI();
+}
+
+function getDiagramInnerSize() {
+  if (!boardLayout.diagram) {
+    return { width: 0, height: 0 };
+  }
+  const styles = window.getComputedStyle(boardLayout.diagram);
+  const paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+  const paddingY = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+  return {
+    width: Math.max(boardLayout.diagram.clientWidth - paddingX, 0),
+    height: Math.max(boardLayout.diagram.clientHeight - paddingY, 0)
+  };
+}
+
+function updateBoardLayout() {
+  if (!boardLayout.board) {
+    return;
+  }
+
+  const fw = state.inputs.mouldingFaceWidth.value;
+  const railLength = state.derived.railCutLength;
+  const stileLength = state.derived.stileCutLength;
+
+  if (fw === null || railLength === null || stileLength === null) {
+    return;
+  }
+
+  const gap = convertValue(0.25, "imperial", state.unit);
+  const boardWidthUnits = fw * 2 + gap * 3;
+  const boardHeightUnits = railLength + stileLength + gap * 3;
+
+  const { width: maxWidth, height: maxHeight } = getDiagramInnerSize();
+  if (!maxWidth || !maxHeight) {
+    return;
+  }
+
+  const scale = Math.min(maxWidth / boardWidthUnits, maxHeight / boardHeightUnits);
+  const gapPx = gap * scale;
+  const blankWidthPx = fw * scale;
+  const railLengthPx = railLength * scale;
+  const stileLengthPx = stileLength * scale;
+
+  boardLayout.board.style.width = `${boardWidthUnits * scale}px`;
+  boardLayout.board.style.height = `${boardHeightUnits * scale}px`;
+
+  const columnOneX = gapPx;
+  const columnTwoX = gapPx * 2 + blankWidthPx;
+  const topY = gapPx;
+  const midY = gapPx * 2 + stileLengthPx;
+
+  boardLayout.blanks.stileLeft.style.width = `${blankWidthPx}px`;
+  boardLayout.blanks.stileLeft.style.height = `${stileLengthPx}px`;
+  boardLayout.blanks.stileLeft.style.transform = `translate(${columnOneX}px, ${topY}px)`;
+
+  boardLayout.blanks.railTop.style.width = `${blankWidthPx}px`;
+  boardLayout.blanks.railTop.style.height = `${railLengthPx}px`;
+  boardLayout.blanks.railTop.style.transform = `translate(${columnOneX}px, ${midY}px)`;
+
+  boardLayout.blanks.railBottom.style.width = `${blankWidthPx}px`;
+  boardLayout.blanks.railBottom.style.height = `${railLengthPx}px`;
+  boardLayout.blanks.railBottom.style.transform = `translate(${columnTwoX}px, ${topY}px)`;
+
+  boardLayout.blanks.stileRight.style.width = `${blankWidthPx}px`;
+  boardLayout.blanks.stileRight.style.height = `${stileLengthPx}px`;
+  boardLayout.blanks.stileRight.style.transform = `translate(${columnTwoX}px, ${midY}px)`;
 }
 
 function buildCopyText() {
@@ -368,6 +446,13 @@ copyBtn.addEventListener("click", () => {
     return;
   }
   copyToClipboard();
+});
+
+window.addEventListener("resize", () => {
+  if (!state.ui.hasValidResults) {
+    return;
+  }
+  updateBoardLayout();
 });
 
 handleInputChange({ target: inputElements.clearance });
