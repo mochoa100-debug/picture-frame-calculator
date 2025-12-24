@@ -55,7 +55,9 @@ const resultsFields = {
   outsideFrameWidth: document.querySelector("#outsideFrameWidth"),
   outsideFrameHeight: document.querySelector("#outsideFrameHeight"),
   railCutLength: document.querySelector("#railCutLength"),
-  stileCutLength: document.querySelector("#stileCutLength")
+  stileCutLength: document.querySelector("#stileCutLength"),
+  frameVisualWidth: document.querySelector("#frameVisualWidth"),
+  frameVisualHeight: document.querySelector("#frameVisualHeight")
 };
 
 const copyBtn = document.querySelector("#copyBtn");
@@ -217,6 +219,8 @@ function updateResultsUI() {
   resultsFields.outsideFrameHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
   resultsFields.railCutLength.textContent = formatNumber(state.derived.railCutLength);
   resultsFields.stileCutLength.textContent = formatNumber(state.derived.stileCutLength);
+  resultsFields.frameVisualWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
+  resultsFields.frameVisualHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
 }
 
 function updateErrorUI() {
