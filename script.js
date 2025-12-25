@@ -339,16 +339,17 @@ function updateBoardLayout() {
   const rowGapPx = gapPx;
   const columnTwoX = originX + blankWidthPx + columnGapPx;
   const topPieceY = originY;
-  const bottomPieceY = originY + railLengthPx + rowGapPx;
+  const columnOneSecondY = originY + stileLengthPx + rowGapPx;
+  const columnTwoSecondY = originY + railLengthPx + rowGapPx;
 
   boardLayout.blanks.stileLeft.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileLeft.style.height = `${stileLengthPx}px`;
-  boardLayout.blanks.stileLeft.style.transform = `translate(${originX}px, ${bottomPieceY}px)`;
+  boardLayout.blanks.stileLeft.style.transform = `translate(${originX}px, ${topPieceY}px)`;
   boardLayout.blanks.stileLeft.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.railTop.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.railTop.style.height = `${railLengthPx}px`;
-  boardLayout.blanks.railTop.style.transform = `translate(${originX}px, ${topPieceY}px)`;
+  boardLayout.blanks.railTop.style.transform = `translate(${originX}px, ${columnOneSecondY}px)`;
   boardLayout.blanks.railTop.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.railBottom.style.width = `${blankWidthPx}px`;
@@ -358,7 +359,7 @@ function updateBoardLayout() {
 
   boardLayout.blanks.stileRight.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileRight.style.height = `${stileLengthPx}px`;
-  boardLayout.blanks.stileRight.style.transform = `translate(${columnTwoX}px, ${bottomPieceY}px)`;
+  boardLayout.blanks.stileRight.style.transform = `translate(${columnTwoX}px, ${columnTwoSecondY}px)`;
   boardLayout.blanks.stileRight.style.setProperty("--miter", `${blankWidthPx}px`);
 
   if (boardLayout.dimensions.width && boardLayout.dimensions.height) {

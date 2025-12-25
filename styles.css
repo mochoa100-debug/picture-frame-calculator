@@ -399,9 +399,8 @@ input:focus {
 }
 
 .board-layout__note {
-  position: absolute;
-  top: 8px;
-  left: 10px;
+  align-self: flex-start;
+  margin: 6px 0 0;
   font-size: 0.78rem;
   padding: 3px 8px;
   background: rgba(255, 255, 255, 0.88);
