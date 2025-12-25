@@ -188,10 +188,10 @@ input:focus {
 }
 
 .cut-list__swatch {
-  --miter: 10px;
+  --miter: var(--cut-swatch-miter, 10px);
   display: inline-block;
-  width: 38px;
-  height: 14px;
+  width: var(--cut-swatch-length, 38px);
+  height: var(--cut-swatch-thickness, 14px);
   margin-right: 8px;
   border-radius: 4px;
   border: 1px solid rgba(110, 72, 42, 0.45);
@@ -212,13 +212,13 @@ input:focus {
 }
 
 .cut-list__swatch--rail {
-  clip-path: polygon(0 0, 100% 0, calc(100% - var(--miter)) 100%, var(--miter) 100%);
+  clip-path: polygon(var(--miter) 0, 100% 0, calc(100% - var(--miter)) 100%, 0 100%);
 }
 
 .cut-list__swatch--stile {
-  width: 16px;
-  height: 34px;
-  clip-path: polygon(0 0, 100% var(--miter), 100% calc(100% - var(--miter)), 0 100%);
+  width: var(--cut-swatch-thickness, 14px);
+  height: var(--cut-swatch-length, 38px);
+  clip-path: polygon(0 0, 100% var(--miter), 100% 100%, 0 calc(100% - var(--miter)));
 }
 
 .frame-visual {
