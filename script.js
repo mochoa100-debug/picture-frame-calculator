@@ -248,6 +248,7 @@ function updateResultsUI() {
   resultsFields.totalLinearLength.textContent = formatNumber(state.derived.totalLinearLength);
   resultsFields.frameVisualWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
   resultsFields.frameVisualHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
+  updateCutListSwatches();
   updateBoardLayout();
   resultsFields.boardFootprintWidth.textContent = formatNumber(state.derived.boardWidthUnits);
   resultsFields.boardFootprintHeight.textContent = formatNumber(state.derived.boardHeightUnits);
@@ -299,6 +300,26 @@ function getDiagramInnerSize() {
     width: Math.max(Math.min(boardLayout.diagram.clientWidth - paddingX, stageWidth), 0),
     height: Math.max(Math.min(boardLayout.diagram.clientHeight - paddingY, stageHeight), 0)
   };
+}
+
+function updateCutListSwatches() {
+  if (!resultsSection) {
+    return;
+  }
+
+  const fw = state.inputs.mouldingFaceWidth.value;
+  if (fw === null) {
+    return;
+  }
+
+  const mouldingInches = convertValue(fw, state.unit, "imperial");
+  const thicknessPx = Math.min(Math.max(12 + mouldingInches * 6, 12), 28);
+  const lengthPx = Math.min(Math.max(thicknessPx * 2.8, 36), 64);
+  const miterPx = Math.min(thicknessPx, lengthPx / 2 - 2);
+
+  resultsSection.style.setProperty("--cut-swatch-thickness", `${Math.round(thicknessPx)}px`);
+  resultsSection.style.setProperty("--cut-swatch-length", `${Math.round(lengthPx)}px`);
+  resultsSection.style.setProperty("--cut-swatch-miter", `${Math.round(miterPx)}px`);
 }
 
 function updateBoardLayout() {
