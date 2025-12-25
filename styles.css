@@ -337,6 +337,15 @@ input:focus {
   border: 1px solid var(--border);
 }
 
+.board-layout__stage {
+  --label-gap: 18px;
+  position: relative;
+  width: min(320px, 80vw);
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+}
+
 .board-layout__board {
   position: relative;
   border-radius: 10px;
@@ -350,6 +359,32 @@ input:focus {
     ),
     #d7b28a;
   box-shadow: 0 14px 26px rgba(51, 33, 20, 0.18);
+}
+
+.board-layout__dimension {
+  position: absolute;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: #fffdf9;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 14px rgba(27, 20, 16, 0.08);
+  white-space: nowrap;
+}
+
+.board-layout__dimension--width {
+  top: calc(-1 * var(--label-gap));
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.board-layout__dimension--height {
+  top: 50%;
+  right: calc(-1 * var(--label-gap));
+  transform: translate(50%, -50%);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 .board-layout__note {
@@ -386,6 +421,12 @@ input:focus {
   place-items: center;
   padding: 4px 8px;
   text-align: center;
+  --miter: 12px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--miter)) 100%, var(--miter) 100%);
+}
+
+.board-layout__blank--stile {
+  clip-path: polygon(0 0, 100% var(--miter), 100% calc(100% - var(--miter)), 0 100%);
 }
 
 .board-layout__label {

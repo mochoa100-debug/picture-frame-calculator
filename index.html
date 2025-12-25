@@ -106,19 +106,27 @@
         <h2>Board Cut Layout</h2>
         <p class="helper">Top-down layout of rails and stiles arranged on a single board.</p>
         <div class="board-layout__diagram" role="img" aria-label="Board cut layout showing rails and stiles positioned on a single board.">
-          <div class="board-layout__board">
-            <span class="board-layout__note">Board thickness: 3/4 in</span>
-            <div class="board-layout__blank" data-blank="stile-left">
+          <div class="board-layout__stage">
+            <div class="board-layout__dimension board-layout__dimension--width">
+              <span>Board Width: <span id="boardWidth">--</span> <span data-unit-short>in</span></span>
+            </div>
+            <div class="board-layout__dimension board-layout__dimension--height">
+              <span>Board Height: <span id="boardHeight">--</span> <span data-unit-short>in</span></span>
+            </div>
+            <div class="board-layout__board">
+              <span class="board-layout__note">Board thickness: 3/4 in</span>
+              <div class="board-layout__blank board-layout__blank--stile" data-blank="stile-left">
               <span class="board-layout__label">Stile (Left)</span>
-            </div>
-            <div class="board-layout__blank" data-blank="rail-top">
+              </div>
+              <div class="board-layout__blank board-layout__blank--rail" data-blank="rail-top">
               <span class="board-layout__label">Rail (Top)</span>
-            </div>
-            <div class="board-layout__blank" data-blank="rail-bottom">
+              </div>
+              <div class="board-layout__blank board-layout__blank--rail" data-blank="rail-bottom">
               <span class="board-layout__label">Rail (Bottom)</span>
-            </div>
-            <div class="board-layout__blank" data-blank="stile-right">
+              </div>
+              <div class="board-layout__blank board-layout__blank--stile" data-blank="stile-right">
               <span class="board-layout__label">Stile (Right)</span>
+              </div>
             </div>
           </div>
         </div>

@@ -62,7 +62,12 @@ const resultsFields = {
 
 const boardLayout = {
   diagram: document.querySelector(".board-layout__diagram"),
+  stage: document.querySelector(".board-layout__stage"),
   board: document.querySelector(".board-layout__board"),
+  dimensions: {
+    width: document.querySelector("#boardWidth"),
+    height: document.querySelector("#boardHeight")
+  },
   blanks: {
     stileLeft: document.querySelector("[data-blank='stile-left']"),
     railTop: document.querySelector("[data-blank='rail-top']"),
@@ -269,15 +274,17 @@ function handleInputChange(event) {
 }
 
 function getDiagramInnerSize() {
-  if (!boardLayout.diagram) {
+  if (!boardLayout.diagram || !boardLayout.stage) {
     return { width: 0, height: 0 };
   }
   const styles = window.getComputedStyle(boardLayout.diagram);
   const paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
   const paddingY = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+  const stageWidth = boardLayout.stage.clientWidth;
+  const stageHeight = boardLayout.stage.clientHeight;
   return {
-    width: Math.max(boardLayout.diagram.clientWidth - paddingX, 0),
-    height: Math.max(boardLayout.diagram.clientHeight - paddingY, 0)
+    width: Math.max(Math.min(boardLayout.diagram.clientWidth - paddingX, stageWidth), 0),
+    height: Math.max(Math.min(boardLayout.diagram.clientHeight - paddingY, stageHeight), 0)
   };
 }
 
@@ -294,9 +301,9 @@ function updateBoardLayout() {
     return;
   }
 
-  const gap = convertValue(0.25, "imperial", state.unit);
-  const boardWidthUnits = fw * 2 + gap * 3;
-  const boardHeightUnits = railLength + stileLength + gap * 3;
+  const gap = convertValue(0.5, "imperial", state.unit);
+  const boardWidthUnits = railLength + gap * 2;
+  const boardHeightUnits = stileLength + gap * 2;
 
   const { width: maxWidth, height: maxHeight } = getDiagramInnerSize();
   if (!maxWidth || !maxHeight) {
@@ -312,26 +319,33 @@ function updateBoardLayout() {
   boardLayout.board.style.width = `${boardWidthUnits * scale}px`;
   boardLayout.board.style.height = `${boardHeightUnits * scale}px`;
 
-  const columnOneX = gapPx;
-  const columnTwoX = gapPx * 2 + blankWidthPx;
-  const topY = gapPx;
-  const midY = gapPx * 2 + stileLengthPx;
+  const originX = gapPx;
+  const originY = gapPx;
 
   boardLayout.blanks.stileLeft.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileLeft.style.height = `${stileLengthPx}px`;
-  boardLayout.blanks.stileLeft.style.transform = `translate(${columnOneX}px, ${topY}px)`;
+  boardLayout.blanks.stileLeft.style.transform = `translate(${originX}px, ${originY}px)`;
+  boardLayout.blanks.stileLeft.style.setProperty("--miter", `${blankWidthPx}px`);
 
-  boardLayout.blanks.railTop.style.width = `${blankWidthPx}px`;
-  boardLayout.blanks.railTop.style.height = `${railLengthPx}px`;
-  boardLayout.blanks.railTop.style.transform = `translate(${columnOneX}px, ${midY}px)`;
+  boardLayout.blanks.railTop.style.width = `${railLengthPx}px`;
+  boardLayout.blanks.railTop.style.height = `${blankWidthPx}px`;
+  boardLayout.blanks.railTop.style.transform = `translate(${originX}px, ${originY}px)`;
+  boardLayout.blanks.railTop.style.setProperty("--miter", `${blankWidthPx}px`);
 
-  boardLayout.blanks.railBottom.style.width = `${blankWidthPx}px`;
-  boardLayout.blanks.railBottom.style.height = `${railLengthPx}px`;
-  boardLayout.blanks.railBottom.style.transform = `translate(${columnTwoX}px, ${topY}px)`;
+  boardLayout.blanks.railBottom.style.width = `${railLengthPx}px`;
+  boardLayout.blanks.railBottom.style.height = `${blankWidthPx}px`;
+  boardLayout.blanks.railBottom.style.transform = `translate(${originX}px, ${originY + stileLengthPx - blankWidthPx}px)`;
+  boardLayout.blanks.railBottom.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.stileRight.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileRight.style.height = `${stileLengthPx}px`;
-  boardLayout.blanks.stileRight.style.transform = `translate(${columnTwoX}px, ${midY}px)`;
+  boardLayout.blanks.stileRight.style.transform = `translate(${originX + railLengthPx - blankWidthPx}px, ${originY}px)`;
+  boardLayout.blanks.stileRight.style.setProperty("--miter", `${blankWidthPx}px`);
+
+  if (boardLayout.dimensions.width && boardLayout.dimensions.height) {
+    boardLayout.dimensions.width.textContent = formatNumber(boardWidthUnits);
+    boardLayout.dimensions.height.textContent = formatNumber(boardHeightUnits);
+  }
 }
 
 function buildCopyText() {
