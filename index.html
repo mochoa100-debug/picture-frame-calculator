@@ -118,7 +118,7 @@
 
       <div class="board-layout">
         <h2>Board Cut Layout</h2>
-        <p class="helper">All parts are oriented vertically along the board grain and packed into two columns to minimize wasted space.</p>
+        <p class="helper">All parts are oriented vertically along the board grain, with the short side facing the board center.</p>
         <div class="board-layout__diagram" role="img" aria-label="Board cut layout showing rails and stiles oriented vertically along the grain.">
           <div class="board-layout__stage">
             <div class="board-layout__dimension board-layout__dimension--width">
@@ -128,16 +128,16 @@
               <span>Board Height: <span id="boardHeight">--</span> <span data-unit-short>in</span></span>
             </div>
             <div class="board-layout__board">
-              <div class="board-layout__blank board-layout__blank--stile" data-blank="stile-left">
+              <div class="board-layout__blank board-layout__blank--stile board-layout__blank--short-right" data-blank="stile-left">
               <span class="board-layout__label">Stile (Left)</span>
               </div>
-              <div class="board-layout__blank board-layout__blank--rail" data-blank="rail-top">
+              <div class="board-layout__blank board-layout__blank--rail board-layout__blank--short-right" data-blank="rail-top">
               <span class="board-layout__label">Rail (Top)</span>
               </div>
-              <div class="board-layout__blank board-layout__blank--rail" data-blank="rail-bottom">
+              <div class="board-layout__blank board-layout__blank--rail board-layout__blank--short-left" data-blank="rail-bottom">
               <span class="board-layout__label">Rail (Bottom)</span>
               </div>
-              <div class="board-layout__blank board-layout__blank--stile" data-blank="stile-right">
+              <div class="board-layout__blank board-layout__blank--stile board-layout__blank--short-left" data-blank="stile-right">
               <span class="board-layout__label">Stile (Right)</span>
               </div>
             </div>

@@ -443,6 +443,14 @@ input:focus {
   clip-path: polygon(0 0, 100% var(--miter), 100% calc(100% - var(--miter)), 0 100%);
 }
 
+.board-layout__blank--short-left {
+  clip-path: polygon(var(--miter) 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.board-layout__blank--short-right {
+  clip-path: polygon(0 0, calc(100% - var(--miter)) 0, 100% 100%, 0 100%);
+}
+
 .board-layout__label {
   font-size: 0.78rem;
   font-weight: 600;
