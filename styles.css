@@ -393,14 +393,20 @@ input:focus {
 
 .board-layout__board {
   position: relative;
-  border-radius: 10px;
+  border-radius: 0;
+  border: 1px solid rgba(110, 72, 42, 0.45);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(142, 98, 63, 0.08)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(125, 82, 47, 0.15)),
     repeating-linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.18) 0 10px,
       rgba(158, 106, 68, 0.28) 10px 18px,
       rgba(255, 255, 255, 0.12) 18px 26px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.08) 0 6px,
+      rgba(120, 80, 50, 0.12) 6px 12px
     ),
     #d7b28a;
   box-shadow: 0 14px 26px rgba(51, 33, 20, 0.18);
