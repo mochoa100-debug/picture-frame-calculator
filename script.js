@@ -20,7 +20,10 @@
     outsideFrameWidth: 0,
     outsideFrameHeight: 0,
     railCutLength: 0,
-    stileCutLength: 0
+    stileCutLength: 0,
+    totalLinearLength: 0,
+    boardWidthUnits: 0,
+    boardHeightUnits: 0
   },
   ui: {
     hasValidResults: false,
@@ -56,6 +59,9 @@ const resultsFields = {
   outsideFrameHeight: document.querySelector("#outsideFrameHeight"),
   railCutLength: document.querySelector("#railCutLength"),
   stileCutLength: document.querySelector("#stileCutLength"),
+  totalLinearLength: document.querySelector("#totalLinearLength"),
+  boardFootprintWidth: document.querySelector("#boardFootprintWidth"),
+  boardFootprintHeight: document.querySelector("#boardFootprintHeight"),
   frameVisualWidth: document.querySelector("#frameVisualWidth"),
   frameVisualHeight: document.querySelector("#frameVisualHeight")
 };
@@ -186,6 +192,7 @@ function calculateDerived() {
 
   const railCutLength = insideOpeningWidth + 2 * fw - 2 * rd;
   const stileCutLength = insideOpeningHeight + 2 * fw - 2 * rd;
+  const totalLinearLength = railCutLength * 2 + stileCutLength * 2;
 
   state.derived = {
     insideOpeningWidth,
@@ -193,7 +200,10 @@ function calculateDerived() {
     outsideFrameWidth,
     outsideFrameHeight,
     railCutLength,
-    stileCutLength
+    stileCutLength,
+    totalLinearLength,
+    boardWidthUnits: state.derived.boardWidthUnits,
+    boardHeightUnits: state.derived.boardHeightUnits
   };
 }
 
@@ -235,9 +245,12 @@ function updateResultsUI() {
   resultsFields.outsideFrameHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
   resultsFields.railCutLength.textContent = formatNumber(state.derived.railCutLength);
   resultsFields.stileCutLength.textContent = formatNumber(state.derived.stileCutLength);
+  resultsFields.totalLinearLength.textContent = formatNumber(state.derived.totalLinearLength);
   resultsFields.frameVisualWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
   resultsFields.frameVisualHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
   updateBoardLayout();
+  resultsFields.boardFootprintWidth.textContent = formatNumber(state.derived.boardWidthUnits);
+  resultsFields.boardFootprintHeight.textContent = formatNumber(state.derived.boardHeightUnits);
 }
 
 function updateErrorUI() {
@@ -302,8 +315,9 @@ function updateBoardLayout() {
   }
 
   const gap = convertValue(0.5, "imperial", state.unit);
-  const boardWidthUnits = railLength + gap * 2;
-  const boardHeightUnits = stileLength + gap * 2;
+  const columnHeightUnits = railLength + stileLength + gap;
+  const boardWidthUnits = fw * 2 + gap * 3;
+  const boardHeightUnits = columnHeightUnits + gap * 2;
 
   const { width: maxWidth, height: maxHeight } = getDiagramInnerSize();
   if (!maxWidth || !maxHeight) {
@@ -321,31 +335,39 @@ function updateBoardLayout() {
 
   const originX = gapPx;
   const originY = gapPx;
+  const columnGapPx = gapPx;
+  const rowGapPx = gapPx;
+  const columnTwoX = originX + blankWidthPx + columnGapPx;
+  const topPieceY = originY;
+  const bottomPieceY = originY + railLengthPx + rowGapPx;
 
   boardLayout.blanks.stileLeft.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileLeft.style.height = `${stileLengthPx}px`;
-  boardLayout.blanks.stileLeft.style.transform = `translate(${originX}px, ${originY}px)`;
+  boardLayout.blanks.stileLeft.style.transform = `translate(${originX}px, ${bottomPieceY}px)`;
   boardLayout.blanks.stileLeft.style.setProperty("--miter", `${blankWidthPx}px`);
 
-  boardLayout.blanks.railTop.style.width = `${railLengthPx}px`;
-  boardLayout.blanks.railTop.style.height = `${blankWidthPx}px`;
-  boardLayout.blanks.railTop.style.transform = `translate(${originX}px, ${originY}px)`;
+  boardLayout.blanks.railTop.style.width = `${blankWidthPx}px`;
+  boardLayout.blanks.railTop.style.height = `${railLengthPx}px`;
+  boardLayout.blanks.railTop.style.transform = `translate(${originX}px, ${topPieceY}px)`;
   boardLayout.blanks.railTop.style.setProperty("--miter", `${blankWidthPx}px`);
 
-  boardLayout.blanks.railBottom.style.width = `${railLengthPx}px`;
-  boardLayout.blanks.railBottom.style.height = `${blankWidthPx}px`;
-  boardLayout.blanks.railBottom.style.transform = `translate(${originX}px, ${originY + stileLengthPx - blankWidthPx}px)`;
+  boardLayout.blanks.railBottom.style.width = `${blankWidthPx}px`;
+  boardLayout.blanks.railBottom.style.height = `${railLengthPx}px`;
+  boardLayout.blanks.railBottom.style.transform = `translate(${columnTwoX}px, ${topPieceY}px)`;
   boardLayout.blanks.railBottom.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.stileRight.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileRight.style.height = `${stileLengthPx}px`;
-  boardLayout.blanks.stileRight.style.transform = `translate(${originX + railLengthPx - blankWidthPx}px, ${originY}px)`;
+  boardLayout.blanks.stileRight.style.transform = `translate(${columnTwoX}px, ${bottomPieceY}px)`;
   boardLayout.blanks.stileRight.style.setProperty("--miter", `${blankWidthPx}px`);
 
   if (boardLayout.dimensions.width && boardLayout.dimensions.height) {
     boardLayout.dimensions.width.textContent = formatNumber(boardWidthUnits);
     boardLayout.dimensions.height.textContent = formatNumber(boardHeightUnits);
   }
+
+  state.derived.boardWidthUnits = boardWidthUnits;
+  state.derived.boardHeightUnits = boardHeightUnits;
 }
 
 function buildCopyText() {
