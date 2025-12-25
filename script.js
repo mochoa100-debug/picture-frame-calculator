@@ -335,7 +335,7 @@ function updateBoardLayout() {
     return;
   }
 
-  const gap = convertValue(0.5, "imperial", state.unit);
+  const gap = convertValue(0.25, "imperial", state.unit);
   const columnHeightUnits = railLength + stileLength + gap;
   const boardWidthUnits = fw * 2 + gap * 3;
   const boardHeightUnits = columnHeightUnits + gap * 2;
@@ -346,17 +346,17 @@ function updateBoardLayout() {
   }
 
   const scale = Math.min(maxWidth / boardWidthUnits, maxHeight / boardHeightUnits);
-  const minGapPx = 12;
-  const minBlankWidthPx = 80;
-  const minBlankHeightPx = 80;
+  const minGapPx = 10;
+  const minBlankWidthPx = 20;
 
   const gapPx = Math.max(gap * scale, minGapPx);
   const blankWidthPx = Math.max(fw * scale, minBlankWidthPx);
-  const railLengthPx = Math.max(railLength * scale, minBlankHeightPx);
-  const stileLengthPx = Math.max(stileLength * scale, minBlankHeightPx);
+  const railLengthPx = railLength * scale;
+  const stileLengthPx = stileLength * scale;
+  const columnHeightPx = railLengthPx + stileLengthPx + gapPx;
 
   const boardWidthPx = blankWidthPx * 2 + gapPx * 3;
-  const boardHeightPx = railLengthPx + stileLengthPx + gapPx * 3;
+  const boardHeightPx = columnHeightPx + gapPx * 2;
 
   boardLayout.board.style.width = `${boardWidthPx}px`;
   boardLayout.board.style.height = `${boardHeightPx}px`;
