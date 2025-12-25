@@ -349,7 +349,7 @@ input:focus {
 }
 
 .board-layout__stage {
-  --label-gap: 18px;
+  --label-gap: 28px;
   position: relative;
   width: min(320px, 80vw);
   aspect-ratio: 4 / 3;
@@ -412,7 +412,7 @@ input:focus {
 
 .board-layout__blank {
   position: absolute;
-  border-radius: 6px;
+  border-radius: 4px;
   border: 1px solid rgba(110, 72, 42, 0.45);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(110, 70, 40, 0.12)),
@@ -427,32 +427,23 @@ input:focus {
     inset 0 1px 2px rgba(255, 255, 255, 0.55),
     inset 0 -6px 10px rgba(0, 0, 0, 0.18),
     0 4px 8px rgba(54, 34, 20, 0.2);
-  display: grid;
-  place-items: center;
-  padding: 4px 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 6px 8px 8px;
   text-align: center;
-  --miter: 12px;
-  clip-path: polygon(0 0, 100% 0, calc(100% - var(--miter)) 100%, var(--miter) 100%);
 }
 
 .board-layout__blank--stile {
-  clip-path: polygon(0 0, 100% var(--miter), 100% calc(100% - var(--miter)), 0 100%);
+  clip-path: none;
 }
 
 .board-layout__blank--rail {
-  clip-path: polygon(0 0, 100% var(--miter), 100% calc(100% - var(--miter)), 0 100%);
-}
-
-.board-layout__blank--short-left {
-  clip-path: polygon(var(--miter) 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.board-layout__blank--short-right {
-  clip-path: polygon(0 0, calc(100% - var(--miter)) 0, 100% 100%, 0 100%);
+  clip-path: none;
 }
 
 .board-layout__label {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--ink);
   white-space: nowrap;

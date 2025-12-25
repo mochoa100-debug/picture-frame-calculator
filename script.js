@@ -314,10 +314,10 @@ function updateBoardLayout() {
     return;
   }
 
-  const gap = convertValue(0.5, "imperial", state.unit);
-  const columnHeightUnits = railLength + stileLength + gap;
-  const boardWidthUnits = fw * 2 + gap * 3;
-  const boardHeightUnits = columnHeightUnits + gap * 2;
+  const gapUnits = convertValue(0.25, "imperial", state.unit);
+  const columnHeightUnits = railLength + stileLength + gapUnits;
+  const boardWidthUnits = fw * 2 + gapUnits * 3;
+  const boardHeightUnits = columnHeightUnits + gapUnits * 2;
 
   const { width: maxWidth, height: maxHeight } = getDiagramInnerSize();
   if (!maxWidth || !maxHeight) {
@@ -325,13 +325,17 @@ function updateBoardLayout() {
   }
 
   const scale = Math.min(maxWidth / boardWidthUnits, maxHeight / boardHeightUnits);
-  const gapPx = gap * scale;
-  const blankWidthPx = fw * scale;
+  const gapPx = gapUnits * scale;
+  const minBlankPx = 28;
+  const maxBlankWidthPx = Math.max((maxWidth - gapPx * 3) / 2, 0);
+  const blankWidthPx = Math.max(fw * scale, Math.min(minBlankPx, maxBlankWidthPx));
   const railLengthPx = railLength * scale;
   const stileLengthPx = stileLength * scale;
+  const boardWidthPx = blankWidthPx * 2 + gapPx * 3;
+  const boardHeightPx = boardHeightUnits * scale;
 
-  boardLayout.board.style.width = `${boardWidthUnits * scale}px`;
-  boardLayout.board.style.height = `${boardHeightUnits * scale}px`;
+  boardLayout.board.style.width = `${boardWidthPx}px`;
+  boardLayout.board.style.height = `${boardHeightPx}px`;
 
   const originX = gapPx;
   const originY = gapPx;
@@ -345,22 +349,18 @@ function updateBoardLayout() {
   boardLayout.blanks.stileLeft.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileLeft.style.height = `${stileLengthPx}px`;
   boardLayout.blanks.stileLeft.style.transform = `translate(${originX}px, ${topPieceY}px)`;
-  boardLayout.blanks.stileLeft.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.railTop.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.railTop.style.height = `${railLengthPx}px`;
   boardLayout.blanks.railTop.style.transform = `translate(${originX}px, ${columnOneSecondY}px)`;
-  boardLayout.blanks.railTop.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.railBottom.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.railBottom.style.height = `${railLengthPx}px`;
   boardLayout.blanks.railBottom.style.transform = `translate(${columnTwoX}px, ${topPieceY}px)`;
-  boardLayout.blanks.railBottom.style.setProperty("--miter", `${blankWidthPx}px`);
 
   boardLayout.blanks.stileRight.style.width = `${blankWidthPx}px`;
   boardLayout.blanks.stileRight.style.height = `${stileLengthPx}px`;
   boardLayout.blanks.stileRight.style.transform = `translate(${columnTwoX}px, ${columnTwoSecondY}px)`;
-  boardLayout.blanks.stileRight.style.setProperty("--miter", `${blankWidthPx}px`);
 
   if (boardLayout.dimensions.width && boardLayout.dimensions.height) {
     boardLayout.dimensions.width.textContent = formatNumber(boardWidthUnits);
