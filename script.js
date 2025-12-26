@@ -4,10 +4,10 @@
     artworkWidth: { raw: "", value: null, parseError: "" },
     artworkHeight: { raw: "", value: null, parseError: "" },
     mouldingFaceWidth: { raw: "1", value: 1, parseError: "" },
-    rabbetDepth: { raw: "", value: null, parseError: "" },
+    rabbetDepth: { raw: "0.25", value: 0.25, parseError: "" },
     clearance: { raw: "0.125", value: 0.125, parseError: "" },
     materialThickness: { raw: "0.75", value: 0.75, parseError: "" },
-    costPerBoardFoot: { raw: "", value: null, parseError: "" }
+    costPerBoardFoot: { raw: "5", value: 5, parseError: "" }
   },
   validationErrors: {
     artworkWidth: "",
