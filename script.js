@@ -3,7 +3,7 @@
   inputs: {
     artworkWidth: { raw: "", value: null, parseError: "" },
     artworkHeight: { raw: "", value: null, parseError: "" },
-    mouldingFaceWidth: { raw: "", value: null, parseError: "" },
+    mouldingFaceWidth: { raw: "1", value: 1, parseError: "" },
     rabbetDepth: { raw: "", value: null, parseError: "" },
     clearance: { raw: "0.125", value: 0.125, parseError: "" },
     materialThickness: { raw: "0.75", value: 0.75, parseError: "" }
@@ -537,4 +537,5 @@ window.addEventListener("resize", () => {
 });
 
 handleInputChange({ target: inputElements.clearance });
+handleInputChange({ target: inputElements.mouldingFaceWidth });
 updateUnitLabels();
