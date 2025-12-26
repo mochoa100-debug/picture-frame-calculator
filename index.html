@@ -59,6 +59,12 @@
         <input id="clearance" name="clearance" type="number" inputmode="decimal" step="any" min="0" value="0.125" />
         <p class="error-msg" data-error-for="clearance" aria-live="polite"></p>
       </div>
+      <div class="field">
+        <label for="materialThickness">Material Thickness (<span data-unit-label>inches</span>)</label>
+        <p class="helper">Used for board stock selection.</p>
+        <input id="materialThickness" name="materialThickness" type="number" inputmode="decimal" step="any" min="0" value="0.75" />
+        <p class="error-msg" data-error-for="materialThickness" aria-live="polite"></p>
+      </div>
     </section>
 
     <div class="button-slot" aria-hidden="true"></div>
@@ -149,7 +155,7 @@
             </div>
           </div>
         </div>
-        <p class="board-layout__note">Board thickness: 3/4 in</p>
+        <p class="board-layout__note">Board thickness: <span id="boardThicknessValue">--</span> <span data-unit-short>in</span></p>
       </div>
     </section>
   </main>

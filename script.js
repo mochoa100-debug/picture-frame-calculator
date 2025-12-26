@@ -5,14 +5,16 @@
     artworkHeight: { raw: "", value: null, parseError: "" },
     mouldingFaceWidth: { raw: "", value: null, parseError: "" },
     rabbetDepth: { raw: "", value: null, parseError: "" },
-    clearance: { raw: "0.125", value: 0.125, parseError: "" }
+    clearance: { raw: "0.125", value: 0.125, parseError: "" },
+    materialThickness: { raw: "0.75", value: 0.75, parseError: "" }
   },
   validationErrors: {
     artworkWidth: "",
     artworkHeight: "",
     mouldingFaceWidth: "",
     rabbetDepth: "",
-    clearance: ""
+    clearance: "",
+    materialThickness: ""
   },
   derived: {
     insideOpeningWidth: 0,
@@ -36,7 +38,8 @@ const inputElements = {
   artworkHeight: document.querySelector("#artworkHeight"),
   mouldingFaceWidth: document.querySelector("#mouldingFaceWidth"),
   rabbetDepth: document.querySelector("#rabbetDepth"),
-  clearance: document.querySelector("#clearance")
+  clearance: document.querySelector("#clearance"),
+  materialThickness: document.querySelector("#materialThickness")
 };
 
 const unitInputs = document.querySelectorAll("input[name='measurementUnit']");
@@ -48,7 +51,8 @@ const errorElements = {
   artworkHeight: document.querySelector("[data-error-for='artworkHeight']"),
   mouldingFaceWidth: document.querySelector("[data-error-for='mouldingFaceWidth']"),
   rabbetDepth: document.querySelector("[data-error-for='rabbetDepth']"),
-  clearance: document.querySelector("[data-error-for='clearance']")
+  clearance: document.querySelector("[data-error-for='clearance']"),
+  materialThickness: document.querySelector("[data-error-for='materialThickness']")
 };
 
 const resultsSection = document.querySelector("#results");
@@ -62,6 +66,7 @@ const resultsFields = {
   totalLinearLength: document.querySelector("#totalLinearLength"),
   boardFootprintWidth: document.querySelector("#boardFootprintWidth"),
   boardFootprintHeight: document.querySelector("#boardFootprintHeight"),
+  boardThicknessValue: document.querySelector("#boardThicknessValue"),
   frameVisualWidth: document.querySelector("#frameVisualWidth"),
   frameVisualHeight: document.querySelector("#frameVisualHeight")
 };
@@ -126,7 +131,8 @@ function validateInputs() {
     artworkHeight: "",
     mouldingFaceWidth: "",
     rabbetDepth: "",
-    clearance: ""
+    clearance: "",
+    materialThickness: ""
   };
 
   // Start with parse errors so invalid typing is caught immediately.
@@ -141,6 +147,7 @@ function validateInputs() {
   const fw = state.inputs.mouldingFaceWidth.value;
   const rd = state.inputs.rabbetDepth.value;
   const clearance = state.inputs.clearance.value;
+  const materialThickness = state.inputs.materialThickness.value;
 
   if (!errors.artworkWidth && aw !== null && aw <= 0) {
     errors.artworkWidth = "Artwork width must be greater than 0.";
@@ -160,6 +167,10 @@ function validateInputs() {
 
   if (!errors.clearance && clearance !== null && clearance < 0) {
     errors.clearance = "Clearance must be 0 or greater.";
+  }
+
+  if (!errors.materialThickness && materialThickness !== null && materialThickness <= 0) {
+    errors.materialThickness = "Material thickness must be greater than 0.";
   }
 
   if (!errors.rabbetDepth && fw !== null && rd !== null && rd > fw) {
@@ -248,6 +259,7 @@ function updateResultsUI() {
   resultsFields.totalLinearLength.textContent = formatNumber(state.derived.totalLinearLength);
   resultsFields.frameVisualWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
   resultsFields.frameVisualHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
+  resultsFields.boardThicknessValue.textContent = formatNumber(state.inputs.materialThickness.value);
   updateCutListSwatches();
   updateBoardLayout();
   resultsFields.boardFootprintWidth.textContent = formatNumber(state.derived.boardWidthUnits);
