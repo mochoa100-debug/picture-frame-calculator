@@ -285,13 +285,16 @@ function updateUnitLabels() {
 }
 
 function updateResultsUI() {
+  resultsSection.classList.remove("hidden");
+
   if (!state.ui.hasValidResults) {
-    resultsSection.classList.add("hidden");
     copyBtn.disabled = true;
+    Object.values(resultsFields).forEach((field) => {
+      field.textContent = "--";
+    });
     return;
   }
 
-  resultsSection.classList.remove("hidden");
   copyBtn.disabled = false;
 
   resultsFields.insideOpeningWidth.textContent = formatNumber(state.derived.insideOpeningWidth);

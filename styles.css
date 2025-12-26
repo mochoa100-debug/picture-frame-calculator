@@ -392,7 +392,13 @@ input:focus {
 }
 
 .board-layout__board {
+  --board-gap: 12px;
+  --blank-width: 62px;
+  --rail-height: 70px;
+  --stile-height: 96px;
   position: relative;
+  width: calc(var(--blank-width) * 2 + var(--board-gap) * 3);
+  height: calc(var(--stile-height) + var(--rail-height) + var(--board-gap) * 3);
   border-radius: 0;
   border: 1px solid rgba(110, 72, 42, 0.45);
   background:
@@ -447,6 +453,7 @@ input:focus {
 .board-layout__blank {
   --miter: clamp(6px, 25%, 14px);
   position: absolute;
+  width: var(--blank-width);
   border-radius: 0;
   border: 1px solid rgba(110, 72, 42, 0.45);
   background:
@@ -467,6 +474,34 @@ input:focus {
   padding: 8px 6px 6px;
   text-align: center;
   overflow: hidden;
+}
+
+.board-layout__blank--rail {
+  height: var(--rail-height);
+}
+
+.board-layout__blank--stile {
+  height: var(--stile-height);
+}
+
+[data-blank="stile-left"] {
+  left: var(--board-gap);
+  top: var(--board-gap);
+}
+
+[data-blank="rail-top"] {
+  left: var(--board-gap);
+  top: calc(var(--board-gap) * 2 + var(--stile-height));
+}
+
+[data-blank="rail-bottom"] {
+  left: calc(var(--board-gap) * 2 + var(--blank-width));
+  top: var(--board-gap);
+}
+
+[data-blank="stile-right"] {
+  left: calc(var(--board-gap) * 2 + var(--blank-width));
+  top: calc(var(--board-gap) * 2 + var(--rail-height));
 }
 
 .board-layout__blank--short-right {
