@@ -7,7 +7,7 @@
     rabbetDepth: { raw: "", value: null, parseError: "" },
     clearance: { raw: "0.125", value: 0.125, parseError: "" },
     materialThickness: { raw: "0.75", value: 0.75, parseError: "" },
-    costPerBoardFoot: { raw: "5", value: 5, parseError: "" }
+    costPerBoardFoot: { raw: "", value: null, parseError: "" }
   },
   validationErrors: {
     artworkWidth: "",
@@ -28,8 +28,8 @@
     totalLinearLength: 0,
     boardWidthUnits: 0,
     boardHeightUnits: 0,
-    boardFeet: 0,
-    boardCost: 0
+    boardFeet: null,
+    boardCost: null
   },
   ui: {
     hasValidResults: false,
@@ -195,11 +195,25 @@ function validateInputs() {
 }
 
 function hasAllRequiredValues() {
-  return Object.values(state.inputs).every((item) => item.value !== null);
+  const requiredKeys = [
+    "artworkWidth",
+    "artworkHeight",
+    "mouldingFaceWidth",
+    "rabbetDepth",
+    "clearance"
+  ];
+  return requiredKeys.every((key) => state.inputs[key].value !== null);
 }
 
 function hasAnyErrors() {
-  return Object.values(state.validationErrors).some((message) => message);
+  const requiredKeys = [
+    "artworkWidth",
+    "artworkHeight",
+    "mouldingFaceWidth",
+    "rabbetDepth",
+    "clearance"
+  ];
+  return requiredKeys.some((key) => state.validationErrors[key]);
 }
 
 function calculateDerived() {
@@ -257,7 +271,7 @@ function formatBoardFeet(value) {
   if (!Number.isFinite(value)) {
     return "--";
   }
-  return value.toFixed(2);
+  return value.toFixed(3);
 }
 
 function updateUnitLabels() {
@@ -289,7 +303,9 @@ function updateResultsUI() {
   resultsFields.totalLinearLength.textContent = formatNumber(state.derived.totalLinearLength);
   resultsFields.frameVisualWidth.textContent = formatNumber(state.derived.outsideFrameWidth);
   resultsFields.frameVisualHeight.textContent = formatNumber(state.derived.outsideFrameHeight);
-  resultsFields.boardThicknessValue.textContent = formatNumber(state.inputs.materialThickness.value);
+  resultsFields.boardThicknessValue.textContent = state.inputs.materialThickness.value === null
+    ? "--"
+    : formatNumber(state.inputs.materialThickness.value);
   updateCutListSwatches();
   updateBoardLayout();
   resultsFields.boardFootprintWidth.textContent = formatNumber(state.derived.boardWidthUnits);
@@ -443,13 +459,22 @@ function updateBoardLayout() {
     boardLayout.dimensions.height.textContent = formatNumber(boardHeightUnits);
   }
 
-  const thicknessInches = convertValue(state.inputs.materialThickness.value, state.unit, "imperial");
+  const thicknessValue = state.inputs.materialThickness.value;
+  const thicknessValid = Number.isFinite(thicknessValue) && thicknessValue > 0;
+  const thicknessInches = thicknessValid
+    ? convertValue(thicknessValue, state.unit, "imperial")
+    : null;
   const boardWidthInches = convertValue(boardWidthUnits, state.unit, "imperial");
   const boardHeightInches = convertValue(boardHeightUnits, state.unit, "imperial");
-  const rawBoardFeet = (thicknessInches * boardWidthInches * boardHeightInches) / 144;
-  const boardFeet = Number.isFinite(rawBoardFeet) ? rawBoardFeet : 0;
-  const costPerBoardFoot = state.inputs.costPerBoardFoot.value ?? 0;
-  const boardCost = boardFeet * costPerBoardFoot;
+  const rawBoardFeet = thicknessInches === null || !Number.isFinite(thicknessInches)
+    ? null
+    : (thicknessInches * boardWidthInches * boardHeightInches) / 144;
+  const boardFeet = Number.isFinite(rawBoardFeet) ? rawBoardFeet : null;
+  const costPerBoardFoot = state.inputs.costPerBoardFoot.value;
+  const costValid = Number.isFinite(costPerBoardFoot) && costPerBoardFoot >= 0;
+  const boardCost = boardFeet !== null && costValid
+    ? boardFeet * costPerBoardFoot
+    : null;
 
   state.derived.boardWidthUnits = boardWidthUnits;
   state.derived.boardHeightUnits = boardHeightUnits;
