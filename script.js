@@ -6,7 +6,8 @@
     mouldingFaceWidth: { raw: "", value: null, parseError: "" },
     rabbetDepth: { raw: "", value: null, parseError: "" },
     clearance: { raw: "0.125", value: 0.125, parseError: "" },
-    materialThickness: { raw: "0.75", value: 0.75, parseError: "" }
+    materialThickness: { raw: "0.75", value: 0.75, parseError: "" },
+    costPerBoardFoot: { raw: "5", value: 5, parseError: "" }
   },
   validationErrors: {
     artworkWidth: "",
@@ -14,7 +15,8 @@
     mouldingFaceWidth: "",
     rabbetDepth: "",
     clearance: "",
-    materialThickness: ""
+    materialThickness: "",
+    costPerBoardFoot: ""
   },
   derived: {
     insideOpeningWidth: 0,
@@ -25,7 +27,9 @@
     stileCutLength: 0,
     totalLinearLength: 0,
     boardWidthUnits: 0,
-    boardHeightUnits: 0
+    boardHeightUnits: 0,
+    boardFeet: 0,
+    boardCost: 0
   },
   ui: {
     hasValidResults: false,
@@ -39,7 +43,8 @@ const inputElements = {
   mouldingFaceWidth: document.querySelector("#mouldingFaceWidth"),
   rabbetDepth: document.querySelector("#rabbetDepth"),
   clearance: document.querySelector("#clearance"),
-  materialThickness: document.querySelector("#materialThickness")
+  materialThickness: document.querySelector("#materialThickness"),
+  costPerBoardFoot: document.querySelector("#costPerBoardFoot")
 };
 
 const unitInputs = document.querySelectorAll("input[name='measurementUnit']");
@@ -52,7 +57,8 @@ const errorElements = {
   mouldingFaceWidth: document.querySelector("[data-error-for='mouldingFaceWidth']"),
   rabbetDepth: document.querySelector("[data-error-for='rabbetDepth']"),
   clearance: document.querySelector("[data-error-for='clearance']"),
-  materialThickness: document.querySelector("[data-error-for='materialThickness']")
+  materialThickness: document.querySelector("[data-error-for='materialThickness']"),
+  costPerBoardFoot: document.querySelector("[data-error-for='costPerBoardFoot']")
 };
 
 const resultsSection = document.querySelector("#results");
@@ -66,6 +72,8 @@ const resultsFields = {
   totalLinearLength: document.querySelector("#totalLinearLength"),
   boardFootprintWidth: document.querySelector("#boardFootprintWidth"),
   boardFootprintHeight: document.querySelector("#boardFootprintHeight"),
+  boardFeet: document.querySelector("#boardFeet"),
+  boardCost: document.querySelector("#boardCost"),
   boardThicknessValue: document.querySelector("#boardThicknessValue"),
   frameVisualWidth: document.querySelector("#frameVisualWidth"),
   frameVisualHeight: document.querySelector("#frameVisualHeight")
@@ -132,7 +140,8 @@ function validateInputs() {
     mouldingFaceWidth: "",
     rabbetDepth: "",
     clearance: "",
-    materialThickness: ""
+    materialThickness: "",
+    costPerBoardFoot: ""
   };
 
   // Start with parse errors so invalid typing is caught immediately.
@@ -148,6 +157,7 @@ function validateInputs() {
   const rd = state.inputs.rabbetDepth.value;
   const clearance = state.inputs.clearance.value;
   const materialThickness = state.inputs.materialThickness.value;
+  const costPerBoardFoot = state.inputs.costPerBoardFoot.value;
 
   if (!errors.artworkWidth && aw !== null && aw <= 0) {
     errors.artworkWidth = "Artwork width must be greater than 0.";
@@ -171,6 +181,10 @@ function validateInputs() {
 
   if (!errors.materialThickness && materialThickness !== null && materialThickness <= 0) {
     errors.materialThickness = "Material thickness must be greater than 0.";
+  }
+
+  if (!errors.costPerBoardFoot && costPerBoardFoot !== null && costPerBoardFoot < 0) {
+    errors.costPerBoardFoot = "Cost per board foot must be 0 or greater.";
   }
 
   if (!errors.rabbetDepth && fw !== null && rd !== null && rd > fw) {
@@ -214,7 +228,9 @@ function calculateDerived() {
     stileCutLength,
     totalLinearLength,
     boardWidthUnits: state.derived.boardWidthUnits,
-    boardHeightUnits: state.derived.boardHeightUnits
+    boardHeightUnits: state.derived.boardHeightUnits,
+    boardFeet: state.derived.boardFeet,
+    boardCost: state.derived.boardCost
   };
 }
 
@@ -228,6 +244,20 @@ function formatNumber(value) {
 function formatInputValue(value) {
   const formatted = formatNumber(value);
   return formatted.replace(/\.?0+$/, "");
+}
+
+function formatCurrency(value) {
+  if (!Number.isFinite(value)) {
+    return "--";
+  }
+  return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatBoardFeet(value) {
+  if (!Number.isFinite(value)) {
+    return "--";
+  }
+  return value.toFixed(2);
 }
 
 function updateUnitLabels() {
@@ -264,6 +294,8 @@ function updateResultsUI() {
   updateBoardLayout();
   resultsFields.boardFootprintWidth.textContent = formatNumber(state.derived.boardWidthUnits);
   resultsFields.boardFootprintHeight.textContent = formatNumber(state.derived.boardHeightUnits);
+  resultsFields.boardFeet.textContent = formatBoardFeet(state.derived.boardFeet);
+  resultsFields.boardCost.textContent = formatCurrency(state.derived.boardCost);
 }
 
 function updateErrorUI() {
@@ -411,8 +443,18 @@ function updateBoardLayout() {
     boardLayout.dimensions.height.textContent = formatNumber(boardHeightUnits);
   }
 
+  const thicknessInches = convertValue(state.inputs.materialThickness.value, state.unit, "imperial");
+  const boardWidthInches = convertValue(boardWidthUnits, state.unit, "imperial");
+  const boardHeightInches = convertValue(boardHeightUnits, state.unit, "imperial");
+  const rawBoardFeet = (thicknessInches * boardWidthInches * boardHeightInches) / 144;
+  const boardFeet = Number.isFinite(rawBoardFeet) ? rawBoardFeet : 0;
+  const costPerBoardFoot = state.inputs.costPerBoardFoot.value ?? 0;
+  const boardCost = boardFeet * costPerBoardFoot;
+
   state.derived.boardWidthUnits = boardWidthUnits;
   state.derived.boardHeightUnits = boardHeightUnits;
+  state.derived.boardFeet = boardFeet;
+  state.derived.boardCost = boardCost;
 }
 
 function buildCopyText() {
@@ -423,6 +465,8 @@ function buildCopyText() {
   const rail = formatNumber(state.derived.railCutLength);
   const stile = formatNumber(state.derived.stileCutLength);
   const unitShort = UNIT_CONFIG[state.unit].short;
+  const boardFeet = formatBoardFeet(state.derived.boardFeet);
+  const boardCost = formatCurrency(state.derived.boardCost);
 
   return [
     "Cut List — Outside Edge (Long Point to Long Point)",
@@ -433,7 +477,11 @@ function buildCopyText() {
     `${iow} ${unitShort} × ${ioh} ${unitShort}`,
     "",
     "Outside Frame Size (overall frame size):",
-    `${ofw} ${unitShort} × ${ofh} ${unitShort}`
+    `${ofw} ${unitShort} × ${ofh} ${unitShort}`,
+    "",
+    "Material Estimate:",
+    `Board feet: ${boardFeet} bf`,
+    `Estimated cost: $${boardCost}`
   ].join("\n");
 }
 
@@ -487,6 +535,9 @@ function handleUnitChange(event) {
   updateUnitLabels();
 
   Object.entries(state.inputs).forEach(([key, input]) => {
+    if (key === "costPerBoardFoot") {
+      return;
+    }
     if (input.value === null) {
       return;
     }

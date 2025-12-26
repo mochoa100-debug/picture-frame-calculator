@@ -65,6 +65,12 @@
         <input id="materialThickness" name="materialThickness" type="number" inputmode="decimal" step="any" min="0" value="0.75" />
         <p class="error-msg" data-error-for="materialThickness" aria-live="polite"></p>
       </div>
+      <div class="field">
+        <label for="costPerBoardFoot">Cost per Board Foot ($)</label>
+        <p class="helper">Used to estimate material cost.</p>
+        <input id="costPerBoardFoot" name="costPerBoardFoot" type="number" inputmode="decimal" step="any" min="0" value="5" />
+        <p class="error-msg" data-error-for="costPerBoardFoot" aria-live="polite"></p>
+      </div>
     </section>
 
     <div class="button-slot" aria-hidden="true"></div>
@@ -97,6 +103,8 @@
           <h2>Material Summary</h2>
           <p class="value-line">Total linear length: <span id="totalLinearLength">--</span> <span data-unit-short>in</span></p>
           <p class="value-line">Board footprint: <span id="boardFootprintWidth">--</span> <span data-unit-short>in</span> × <span id="boardFootprintHeight">--</span> <span data-unit-short>in</span></p>
+          <p class="value-line">Board feet: <span id="boardFeet">--</span> bf</p>
+          <p class="value-line">Estimated cost: $<span id="boardCost">--</span></p>
         </div>
       </div>
 
