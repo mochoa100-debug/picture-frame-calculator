@@ -47,6 +47,16 @@
     <section class="card">
       <h2>Frame Details</h2>
       <div class="field">
+        <label for="woodSpecies">Wood species</label>
+        <select id="woodSpecies" name="woodSpecies">
+          <option value="Pine">Pine</option>
+          <option value="Oak" selected>Oak</option>
+          <option value="Cherry">Cherry</option>
+          <option value="Walnut">Walnut</option>
+          <option value="Maple">Maple</option>
+        </select>
+      </div>
+      <div class="field">
         <label for="mouldingFaceWidth">Moulding Face Width (<span data-unit-label>inches</span>)</label>
         <input id="mouldingFaceWidth" name="mouldingFaceWidth" type="number" inputmode="decimal" step="any" min="0" value="1" />
         <p class="error-msg" data-error-for="mouldingFaceWidth" aria-live="polite"></p>
