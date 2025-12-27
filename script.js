@@ -298,9 +298,6 @@ function updateResultsUI() {
     Object.values(resultsFields).forEach((field) => {
       field.textContent = "--";
     });
-    if (roundingNotice) {
-      roundingNotice.classList.add("hidden");
-    }
     return;
   }
 
@@ -500,17 +497,11 @@ function updateRoundingNotice() {
     return;
   }
 
-  if (!state.ui.hasValidResults) {
-    roundingNotice.classList.add("hidden");
-    return;
-  }
-
   if (state.unit === "metric") {
-    roundingNotice.textContent = "Rounding applied: values rounded UP to the nearest 1 mm";
+    roundingNotice.textContent = "Rounding rule: all calculated values are rounded UP to the nearest 1 mm.";
   } else {
-    roundingNotice.textContent = "Rounding applied: values rounded UP to the nearest 1/16 in";
+    roundingNotice.textContent = "Rounding rule: all calculated values are rounded UP to the nearest 1/16 in.";
   }
-  roundingNotice.classList.remove("hidden");
 }
 
 function buildCopyText() {

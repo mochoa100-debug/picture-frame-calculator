@@ -143,6 +143,10 @@ input:focus {
 }
 
 .rounding-note {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(156, 91, 46, 0.08);
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.4;
