@@ -411,16 +411,18 @@ input:focus {
   width: calc(var(--blank-width) * 2 + var(--board-gap) * 3);
   height: calc(var(--stile-height) + var(--rail-height) + var(--board-gap) * 3);
   border-radius: 0;
-  border: 1px solid rgba(110, 72, 42, 0.45);
+  border: 1px solid rgba(110, 72, 42, 0.35);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(125, 82, 47, 0.15)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(125, 82, 47, 0.08)),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.18) 0 12px,
-      rgba(158, 106, 68, 0.24) 12px 24px
+      rgba(255, 255, 255, 0.12) 0 16px,
+      rgba(158, 106, 68, 0.14) 16px 32px
     ),
-    #d7b28a;
-  box-shadow: 0 14px 26px rgba(51, 33, 20, 0.18);
+    #e2c6a6;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    0 14px 26px rgba(51, 33, 20, 0.16);
 }
 
 .board-layout__dimension {
@@ -466,19 +468,20 @@ input:focus {
   position: absolute;
   width: var(--blank-width);
   border-radius: 0;
-  border: 1px solid rgba(110, 72, 42, 0.45);
+  border: 1px solid rgba(95, 58, 30, 0.7);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(110, 70, 40, 0.12)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(110, 70, 40, 0.18)),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.2) 0 10px,
-      rgba(146, 90, 52, 0.28) 10px 20px
+      rgba(255, 255, 255, 0.14) 0 8px,
+      rgba(146, 90, 52, 0.32) 8px 16px
     ),
-    #c7925b;
+    #c0834c;
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.55),
     inset 0 -6px 10px rgba(0, 0, 0, 0.18),
-    0 4px 8px rgba(54, 34, 20, 0.2);
+    0 6px 12px rgba(54, 34, 20, 0.28),
+    0 2px 4px rgba(54, 34, 20, 0.18);
   display: block;
   padding: 0;
   text-align: center;
@@ -533,8 +536,11 @@ input:focus {
   white-space: nowrap;
   padding: 2px 6px;
   border-radius: 999px;
-  background: rgba(43, 32, 24, 0.58);
-  box-shadow: 0 2px 4px rgba(40, 26, 16, 0.22);
+  background: rgba(36, 26, 19, 0.72);
+  border: 1px solid rgba(255, 248, 241, 0.35);
+  box-shadow:
+    0 2px 4px rgba(40, 26, 16, 0.25),
+    0 0 0 1px rgba(12, 8, 5, 0.12);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   writing-mode: vertical-rl;
   text-orientation: mixed;
