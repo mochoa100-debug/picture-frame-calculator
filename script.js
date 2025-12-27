@@ -103,7 +103,7 @@ const UNIT_CONFIG = {
   imperial: {
     label: "inches",
     short: "in",
-    decimals: 3
+    decimals: 4
   },
   metric: {
     label: "millimeters",
@@ -119,6 +119,10 @@ function convertValue(value, fromUnit, toUnit) {
     return value;
   }
   return fromUnit === "imperial" ? value * INCH_TO_MM : value / INCH_TO_MM;
+}
+
+function roundUpToFraction(value, denominator) {
+  return Math.ceil(value * denominator) / denominator;
 }
 
 function parseNumericInput(rawValue) {
@@ -253,7 +257,8 @@ function formatNumber(value) {
   if (state.unit === "metric") {
     return String(Math.ceil(value));
   }
-  return value.toFixed(UNIT_CONFIG[state.unit].decimals);
+  const roundedValue = roundUpToFraction(value, 16);
+  return roundedValue.toFixed(UNIT_CONFIG[state.unit].decimals);
 }
 
 function formatInputValue(value) {
@@ -495,7 +500,7 @@ function updateRoundingNotice() {
     return;
   }
 
-  if (state.unit !== "metric") {
+  if (!state.ui.hasValidResults) {
     roundingNotice.classList.add("hidden");
     return;
   }
@@ -512,7 +517,15 @@ function updateRoundingNotice() {
     state.derived.boardHeightUnits
   ];
 
-  const hasRoundedValue = values.some((value) => Number.isFinite(value) && !Number.isInteger(value));
+  let hasRoundedValue = false;
+  if (state.unit === "metric") {
+    roundingNotice.textContent = "Metric dimensions are rounded up to the next millimeter.";
+    hasRoundedValue = values.some((value) => Number.isFinite(value) && !Number.isInteger(value));
+  } else {
+    roundingNotice.textContent = "Imperial dimensions are rounded up to the nearest 1/16 in.";
+    hasRoundedValue = values.some((value) => Number.isFinite(value) && !Number.isInteger(value * 16));
+  }
+
   roundingNotice.classList.toggle("hidden", !hasRoundedValue);
 }
 
