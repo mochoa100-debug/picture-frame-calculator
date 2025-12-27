@@ -505,28 +505,12 @@ function updateRoundingNotice() {
     return;
   }
 
-  const values = [
-    state.derived.insideOpeningWidth,
-    state.derived.insideOpeningHeight,
-    state.derived.outsideFrameWidth,
-    state.derived.outsideFrameHeight,
-    state.derived.railCutLength,
-    state.derived.stileCutLength,
-    state.derived.totalLinearLength,
-    state.derived.boardWidthUnits,
-    state.derived.boardHeightUnits
-  ];
-
-  let hasRoundedValue = false;
   if (state.unit === "metric") {
-    roundingNotice.textContent = "Metric dimensions are rounded up to the next millimeter.";
-    hasRoundedValue = values.some((value) => Number.isFinite(value) && !Number.isInteger(value));
+    roundingNotice.textContent = "Rounding applied: values rounded UP to the nearest 1 mm";
   } else {
-    roundingNotice.textContent = "Imperial dimensions are rounded up to the nearest 1/16 in.";
-    hasRoundedValue = values.some((value) => Number.isFinite(value) && !Number.isInteger(value * 16));
+    roundingNotice.textContent = "Rounding applied: values rounded UP to the nearest 1/16 in";
   }
-
-  roundingNotice.classList.toggle("hidden", !hasRoundedValue);
+  roundingNotice.classList.remove("hidden");
 }
 
 function buildCopyText() {
