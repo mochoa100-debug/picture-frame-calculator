@@ -95,6 +95,12 @@ const boardLayout = {
   }
 };
 
+const frameVisual = {
+  diagram: document.querySelector(".frame-visual__diagram"),
+  stage: document.querySelector(".frame-visual__stage"),
+  outer: document.querySelector(".frame-visual__outer")
+};
+
 const copyBtn = document.querySelector("#copyBtn");
 const copyStatus = document.querySelector("#copyStatus");
 const roundingNotice = document.querySelector("#roundingNotice");
@@ -316,6 +322,7 @@ function updateResultsUI() {
     ? "--"
     : formatNumber(state.inputs.materialThickness.value);
   updateCutListSwatches();
+  updateFrameVisual();
   updateBoardLayout();
   resultsFields.boardFootprintWidth.textContent = formatNumber(state.derived.boardWidthUnits);
   resultsFields.boardFootprintHeight.textContent = formatNumber(state.derived.boardHeightUnits);
@@ -372,6 +379,21 @@ function getDiagramInnerSize() {
   };
 }
 
+function getFrameVisualInnerSize() {
+  if (!frameVisual.diagram || !frameVisual.stage) {
+    return { width: 0, height: 0 };
+  }
+  const styles = window.getComputedStyle(frameVisual.diagram);
+  const paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+  const paddingY = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+  const stageWidth = frameVisual.stage.clientWidth;
+  const stageHeight = frameVisual.stage.clientHeight;
+  return {
+    width: Math.max(Math.min(frameVisual.diagram.clientWidth - paddingX, stageWidth), 0),
+    height: Math.max(Math.min(frameVisual.diagram.clientHeight - paddingY, stageHeight), 0)
+  };
+}
+
 function updateCutListSwatches() {
   if (!resultsSection) {
     return;
@@ -390,6 +412,35 @@ function updateCutListSwatches() {
   resultsSection.style.setProperty("--cut-swatch-thickness", `${Math.round(thicknessPx)}px`);
   resultsSection.style.setProperty("--cut-swatch-length", `${Math.round(lengthPx)}px`);
   resultsSection.style.setProperty("--cut-swatch-miter", `${Math.round(miterPx)}px`);
+}
+
+function updateFrameVisual() {
+  if (!frameVisual.outer) {
+    return;
+  }
+
+  const fw = state.inputs.mouldingFaceWidth.value;
+  const outsideWidth = state.derived.outsideFrameWidth;
+  const outsideHeight = state.derived.outsideFrameHeight;
+
+  if (fw === null || !Number.isFinite(outsideWidth) || !Number.isFinite(outsideHeight)) {
+    return;
+  }
+
+  const { width: maxWidth, height: maxHeight } = getFrameVisualInnerSize();
+  if (!maxWidth || !maxHeight) {
+    return;
+  }
+
+  const scale = Math.min(maxWidth / outsideWidth, maxHeight / outsideHeight);
+  const widthPx = outsideWidth * scale;
+  const heightPx = outsideHeight * scale;
+  const maxMoulding = Math.min(widthPx, heightPx) / 2 - 2;
+  const mouldingPx = Math.min(Math.max(fw * scale, 8), Math.max(maxMoulding, 8));
+
+  frameVisual.outer.style.width = `${widthPx}px`;
+  frameVisual.outer.style.height = `${heightPx}px`;
+  frameVisual.outer.style.setProperty("--moulding", `${Math.round(mouldingPx)}px`);
 }
 
 function updateBoardLayout() {
@@ -631,6 +682,7 @@ window.addEventListener("resize", () => {
   if (!state.ui.hasValidResults) {
     return;
   }
+  updateFrameVisual();
   updateBoardLayout();
 });
 
