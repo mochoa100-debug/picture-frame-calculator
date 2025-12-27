@@ -97,6 +97,7 @@ const boardLayout = {
 
 const copyBtn = document.querySelector("#copyBtn");
 const copyStatus = document.querySelector("#copyStatus");
+const roundingNotice = document.querySelector("#roundingNotice");
 
 const UNIT_CONFIG = {
   imperial: {
@@ -292,6 +293,9 @@ function updateResultsUI() {
     Object.values(resultsFields).forEach((field) => {
       field.textContent = "--";
     });
+    if (roundingNotice) {
+      roundingNotice.classList.add("hidden");
+    }
     return;
   }
 
@@ -315,6 +319,7 @@ function updateResultsUI() {
   resultsFields.boardFootprintHeight.textContent = formatNumber(state.derived.boardHeightUnits);
   resultsFields.boardFeet.textContent = formatBoardFeet(state.derived.boardFeet);
   resultsFields.boardCost.textContent = formatCurrency(state.derived.boardCost);
+  updateRoundingNotice();
 }
 
 function updateErrorUI() {
@@ -483,6 +488,32 @@ function updateBoardLayout() {
   state.derived.boardHeightUnits = boardHeightUnits;
   state.derived.boardFeet = boardFeet;
   state.derived.boardCost = boardCost;
+}
+
+function updateRoundingNotice() {
+  if (!roundingNotice) {
+    return;
+  }
+
+  if (state.unit !== "metric") {
+    roundingNotice.classList.add("hidden");
+    return;
+  }
+
+  const values = [
+    state.derived.insideOpeningWidth,
+    state.derived.insideOpeningHeight,
+    state.derived.outsideFrameWidth,
+    state.derived.outsideFrameHeight,
+    state.derived.railCutLength,
+    state.derived.stileCutLength,
+    state.derived.totalLinearLength,
+    state.derived.boardWidthUnits,
+    state.derived.boardHeightUnits
+  ];
+
+  const hasRoundedValue = values.some((value) => Number.isFinite(value) && !Number.isInteger(value));
+  roundingNotice.classList.toggle("hidden", !hasRoundedValue);
 }
 
 function buildCopyText() {
