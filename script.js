@@ -1,5 +1,6 @@
 ﻿const state = {
   unit: "imperial",
+  woodSpecies: "Oak",
   inputs: {
     artworkWidth: { raw: "", value: null, parseError: "" },
     artworkHeight: { raw: "", value: null, parseError: "" },
@@ -46,6 +47,8 @@ const inputElements = {
   materialThickness: document.querySelector("#materialThickness"),
   costPerBoardFoot: document.querySelector("#costPerBoardFoot")
 };
+
+const woodSpeciesSelect = document.querySelector("#woodSpecies");
 
 const unitInputs = document.querySelectorAll("input[name='measurementUnit']");
 const unitLabelSpans = document.querySelectorAll("[data-unit-label]");
@@ -663,6 +666,16 @@ function handleUnitChange(event) {
   updateResultsUI();
 }
 
+function handleWoodSpeciesChange(event) {
+  const nextSpecies = event.target.value;
+  if (!nextSpecies || nextSpecies === state.woodSpecies) {
+    return;
+  }
+
+  state.woodSpecies = nextSpecies;
+  document.documentElement.dataset.woodSpecies = nextSpecies;
+}
+
 Object.values(inputElements).forEach((input) => {
   input.addEventListener("input", handleInputChange);
 });
@@ -670,6 +683,10 @@ Object.values(inputElements).forEach((input) => {
 unitInputs.forEach((input) => {
   input.addEventListener("change", handleUnitChange);
 });
+
+if (woodSpeciesSelect) {
+  woodSpeciesSelect.addEventListener("change", handleWoodSpeciesChange);
+}
 
 copyBtn.addEventListener("click", () => {
   if (!state.ui.hasValidResults) {
@@ -689,3 +706,7 @@ window.addEventListener("resize", () => {
 handleInputChange({ target: inputElements.clearance });
 handleInputChange({ target: inputElements.mouldingFaceWidth });
 updateUnitLabels();
+document.documentElement.dataset.woodSpecies = state.woodSpecies;
+if (woodSpeciesSelect) {
+  woodSpeciesSelect.value = state.woodSpecies;
+}

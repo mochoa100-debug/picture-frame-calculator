@@ -8,6 +8,93 @@
   --border: #e0d7cf;
   --error: #b42318;
   --shadow: 0 8px 24px rgba(27, 20, 16, 0.08);
+  --wood-frame-light: #e0b480;
+  --wood-frame-mid: #c78b57;
+  --wood-frame-dark: #a86b3e;
+  --wood-frame-sheen: rgba(255, 255, 255, 0.45);
+  --wood-frame-shadow: rgba(110, 70, 40, 0.12);
+  --wood-frame-grain-light: rgba(255, 255, 255, 0.12);
+  --wood-frame-grain-dark: rgba(146, 90, 52, 0.2);
+  --wood-frame-border: rgba(110, 72, 42, 0.4);
+  --wood-board-base: #e2c6a6;
+  --wood-board-grain: rgba(158, 106, 68, 0.14);
+  --wood-blank-base: #c0834c;
+  --wood-blank-grain: rgba(146, 90, 52, 0.32);
+  --wood-blank-border: rgba(95, 58, 30, 0.7);
+  --wood-label-bg: rgba(36, 26, 19, 0.72);
+  --wood-label-border: rgba(255, 248, 241, 0.35);
+}
+
+:root[data-wood-species="Pine"] {
+  --wood-frame-light: #f4e1b2;
+  --wood-frame-mid: #e6c788;
+  --wood-frame-dark: #caa56b;
+  --wood-frame-sheen: rgba(255, 255, 255, 0.5);
+  --wood-frame-shadow: rgba(166, 126, 76, 0.18);
+  --wood-frame-grain-light: rgba(255, 255, 255, 0.14);
+  --wood-frame-grain-dark: rgba(195, 150, 90, 0.2);
+  --wood-frame-border: rgba(152, 113, 66, 0.45);
+  --wood-board-base: #edd9ac;
+  --wood-board-grain: rgba(190, 145, 88, 0.18);
+  --wood-blank-base: #d4ae72;
+  --wood-blank-grain: rgba(184, 134, 72, 0.26);
+  --wood-blank-border: rgba(135, 96, 55, 0.6);
+  --wood-label-bg: rgba(72, 52, 28, 0.72);
+  --wood-label-border: rgba(255, 248, 236, 0.35);
+}
+
+:root[data-wood-species="Cherry"] {
+  --wood-frame-light: #e7b19a;
+  --wood-frame-mid: #c87863;
+  --wood-frame-dark: #a55645;
+  --wood-frame-sheen: rgba(255, 255, 255, 0.4);
+  --wood-frame-shadow: rgba(140, 76, 63, 0.2);
+  --wood-frame-grain-light: rgba(255, 255, 255, 0.1);
+  --wood-frame-grain-dark: rgba(160, 78, 64, 0.22);
+  --wood-frame-border: rgba(117, 63, 50, 0.5);
+  --wood-board-base: #e1b19d;
+  --wood-board-grain: rgba(158, 86, 70, 0.2);
+  --wood-blank-base: #c26e5a;
+  --wood-blank-grain: rgba(150, 72, 60, 0.28);
+  --wood-blank-border: rgba(110, 60, 50, 0.6);
+  --wood-label-bg: rgba(56, 28, 24, 0.75);
+  --wood-label-border: rgba(255, 240, 232, 0.35);
+}
+
+:root[data-wood-species="Walnut"] {
+  --wood-frame-light: #a17b5e;
+  --wood-frame-mid: #7b4f37;
+  --wood-frame-dark: #563426;
+  --wood-frame-sheen: rgba(255, 255, 255, 0.28);
+  --wood-frame-shadow: rgba(58, 36, 25, 0.32);
+  --wood-frame-grain-light: rgba(255, 255, 255, 0.08);
+  --wood-frame-grain-dark: rgba(90, 58, 42, 0.36);
+  --wood-frame-border: rgba(53, 32, 23, 0.65);
+  --wood-board-base: #8a644b;
+  --wood-board-grain: rgba(75, 48, 34, 0.34);
+  --wood-blank-base: #6a4431;
+  --wood-blank-grain: rgba(58, 36, 26, 0.4);
+  --wood-blank-border: rgba(42, 26, 18, 0.75);
+  --wood-label-bg: rgba(28, 16, 11, 0.8);
+  --wood-label-border: rgba(239, 227, 217, 0.25);
+}
+
+:root[data-wood-species="Maple"] {
+  --wood-frame-light: #f9f2df;
+  --wood-frame-mid: #f0e4c8;
+  --wood-frame-dark: #dcc9a1;
+  --wood-frame-sheen: rgba(255, 255, 255, 0.55);
+  --wood-frame-shadow: rgba(166, 140, 103, 0.12);
+  --wood-frame-grain-light: rgba(255, 255, 255, 0.08);
+  --wood-frame-grain-dark: rgba(198, 170, 128, 0.16);
+  --wood-frame-border: rgba(158, 132, 94, 0.35);
+  --wood-board-base: #f2e7cf;
+  --wood-board-grain: rgba(201, 176, 138, 0.16);
+  --wood-blank-base: #e6d4b5;
+  --wood-blank-grain: rgba(190, 160, 120, 0.18);
+  --wood-blank-border: rgba(150, 126, 92, 0.4);
+  --wood-label-bg: rgba(64, 48, 34, 0.72);
+  --wood-label-border: rgba(255, 255, 255, 0.5);
 }
 
 * {
@@ -117,7 +204,22 @@ input {
   background: #fff;
 }
 
+select {
+  height: 46px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  background: #fff;
+  color: var(--ink);
+}
+
 input:focus {
+  outline: 2px solid rgba(156, 91, 46, 0.25);
+  border-color: var(--accent);
+}
+
+select:focus {
   outline: 2px solid rgba(156, 91, 46, 0.25);
   border-color: var(--accent);
 }
@@ -205,16 +307,16 @@ input:focus {
   height: var(--cut-swatch-thickness, 14px);
   margin-right: 8px;
   border-radius: 4px;
-  border: 1px solid rgba(110, 72, 42, 0.45);
+  border: 1px solid var(--wood-frame-border);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(110, 70, 40, 0.12)),
+    linear-gradient(180deg, var(--wood-frame-sheen), var(--wood-frame-shadow)),
     repeating-linear-gradient(
       0deg,
-      rgba(255, 255, 255, 0.12) 0 5px,
-      rgba(146, 90, 52, 0.2) 5px 10px,
+      var(--wood-frame-grain-light) 0 5px,
+      var(--wood-frame-grain-dark) 5px 10px,
       rgba(255, 255, 255, 0.08) 10px 15px
     ),
-    linear-gradient(135deg, #e0b480 0%, #c78b57 50%, #a86b3e 100%);
+    linear-gradient(135deg, var(--wood-frame-light) 0%, var(--wood-frame-mid) 50%, var(--wood-frame-dark) 100%);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.55),
     inset 0 -3px 6px rgba(0, 0, 0, 0.18),
@@ -267,7 +369,7 @@ input:focus {
   height: 100%;
   position: relative;
   border-radius: 0;
-  background: #f3e6d6;
+  background: var(--wood-frame-light);
   box-shadow: 0 14px 22px rgba(51, 33, 20, 0.18);
 }
 
@@ -288,7 +390,7 @@ input:focus {
     inset 0 1px 2px rgba(255, 255, 255, 0.55),
     inset 0 -6px 10px rgba(0, 0, 0, 0.18),
     0 2px 6px rgba(54, 34, 20, 0.18);
-  border: 1px solid rgba(110, 72, 42, 0.4);
+  border: 1px solid var(--wood-frame-border);
 }
 
 .frame-visual__piece--top,
@@ -297,14 +399,14 @@ input:focus {
   left: 0;
   right: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(110, 70, 40, 0.08)),
+    linear-gradient(180deg, var(--wood-frame-sheen), var(--wood-frame-shadow)),
     repeating-linear-gradient(
       0deg,
-      rgba(255, 255, 255, 0.12) 0 6px,
-      rgba(146, 90, 52, 0.2) 6px 12px,
+      var(--wood-frame-grain-light) 0 6px,
+      var(--wood-frame-grain-dark) 6px 12px,
       rgba(255, 255, 255, 0.08) 12px 18px
     ),
-    linear-gradient(135deg, #e0b480 0%, #c78b57 50%, #a86b3e 100%);
+    linear-gradient(135deg, var(--wood-frame-light) 0%, var(--wood-frame-mid) 50%, var(--wood-frame-dark) 100%);
 }
 
 .frame-visual__piece--top {
@@ -327,14 +429,14 @@ input:focus {
   top: 0;
   bottom: 0;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.45), rgba(110, 70, 40, 0.08)),
+    linear-gradient(90deg, var(--wood-frame-sheen), var(--wood-frame-shadow)),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.12) 0 6px,
-      rgba(146, 90, 52, 0.2) 6px 12px,
+      var(--wood-frame-grain-light) 0 6px,
+      var(--wood-frame-grain-dark) 6px 12px,
       rgba(255, 255, 255, 0.08) 12px 18px
     ),
-    linear-gradient(135deg, #dbad79 0%, #c0804d 55%, #9d5f34 100%);
+    linear-gradient(135deg, var(--wood-frame-light) 0%, var(--wood-frame-mid) 55%, var(--wood-frame-dark) 100%);
 }
 
 .frame-visual__piece--left {
@@ -411,15 +513,15 @@ input:focus {
   width: calc(var(--blank-width) * 2 + var(--board-gap) * 3);
   height: calc(var(--stile-height) + var(--rail-height) + var(--board-gap) * 3);
   border-radius: 0;
-  border: 1px solid rgba(110, 72, 42, 0.35);
+  border: 1px solid var(--wood-frame-border);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(125, 82, 47, 0.08)),
     repeating-linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.12) 0 16px,
-      rgba(158, 106, 68, 0.14) 16px 32px
+      var(--wood-board-grain) 16px 32px
     ),
-    #e2c6a6;
+    var(--wood-board-base);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.6),
     0 14px 26px rgba(51, 33, 20, 0.16);
@@ -468,15 +570,15 @@ input:focus {
   position: absolute;
   width: var(--blank-width);
   border-radius: 0;
-  border: 1px solid rgba(95, 58, 30, 0.7);
+  border: 1px solid var(--wood-blank-border);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(110, 70, 40, 0.18)),
     repeating-linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.14) 0 8px,
-      rgba(146, 90, 52, 0.32) 8px 16px
+      var(--wood-blank-grain) 8px 16px
     ),
-    #c0834c;
+    var(--wood-blank-base);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.55),
     inset 0 -6px 10px rgba(0, 0, 0, 0.18),
@@ -536,8 +638,8 @@ input:focus {
   white-space: nowrap;
   padding: 2px 6px;
   border-radius: 999px;
-  background: rgba(36, 26, 19, 0.72);
-  border: 1px solid rgba(255, 248, 241, 0.35);
+  background: var(--wood-label-bg);
+  border: 1px solid var(--wood-label-border);
   box-shadow:
     0 2px 4px rgba(40, 26, 16, 0.25),
     0 0 0 1px rgba(12, 8, 5, 0.12);
