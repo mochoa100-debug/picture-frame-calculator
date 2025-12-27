@@ -143,13 +143,10 @@ input:focus {
 }
 
 .rounding-note {
-  margin-top: 4px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(156, 91, 46, 0.25);
-  background: rgba(255, 248, 241, 0.85);
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-wrap: balance;
 }
 
 .results__block {
