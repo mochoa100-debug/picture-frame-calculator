@@ -103,7 +103,8 @@ const frameVisual = {
   container: document.querySelector(".frame-visual"),
   diagram: document.querySelector(".frame-visual__diagram"),
   stage: document.querySelector(".frame-visual__stage"),
-  outer: document.querySelector(".frame-visual__outer")
+  outer: document.querySelector(".frame-visual__outer"),
+  inner: document.querySelector(".frame-visual__inner")
 };
 
 const woodTextureTargets = [
@@ -434,6 +435,8 @@ function updateFrameVisual() {
     return;
   }
 
+  ensurePlaceholderArt();
+
   const fw = state.inputs.mouldingFaceWidth.value;
   const outsideWidth = state.derived.outsideFrameWidth;
   const outsideHeight = state.derived.outsideFrameHeight;
@@ -456,6 +459,25 @@ function updateFrameVisual() {
   frameVisual.outer.style.width = `${widthPx}px`;
   frameVisual.outer.style.height = `${heightPx}px`;
   frameVisual.outer.style.setProperty("--moulding", `${Math.round(mouldingPx)}px`);
+}
+
+function ensurePlaceholderArt() {
+  if (!frameVisual.inner || !frameVisual.inner.isConnected) {
+    frameVisual.inner = document.querySelector(".frame-visual__inner");
+  }
+  if (!frameVisual.inner) {
+    return;
+  }
+
+  const existingArt = frameVisual.inner.querySelector(".placeholder-art");
+  if (existingArt) {
+    return;
+  }
+
+  const art = document.createElement("div");
+  art.className = "placeholder-art";
+  art.setAttribute("aria-hidden", "true");
+  frameVisual.inner.appendChild(art);
 }
 
 function updateBoardLayout() {
