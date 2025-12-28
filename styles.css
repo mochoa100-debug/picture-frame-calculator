@@ -25,7 +25,29 @@
   --wood-label-border: rgba(255, 248, 241, 0.35);
 }
 
-:root[data-wood-species="Pine"] {
+:root[data-wood-species="Oak"],
+.frame-visual[data-wood-species="Oak"],
+.board-layout[data-wood-species="Oak"] {
+  --wood-frame-light: #e0b480;
+  --wood-frame-mid: #c78b57;
+  --wood-frame-dark: #a86b3e;
+  --wood-frame-sheen: rgba(255, 255, 255, 0.45);
+  --wood-frame-shadow: rgba(110, 70, 40, 0.12);
+  --wood-frame-grain-light: rgba(255, 255, 255, 0.12);
+  --wood-frame-grain-dark: rgba(146, 90, 52, 0.2);
+  --wood-frame-border: rgba(110, 72, 42, 0.4);
+  --wood-board-base: #e2c6a6;
+  --wood-board-grain: rgba(158, 106, 68, 0.14);
+  --wood-blank-base: #c0834c;
+  --wood-blank-grain: rgba(146, 90, 52, 0.32);
+  --wood-blank-border: rgba(95, 58, 30, 0.7);
+  --wood-label-bg: rgba(36, 26, 19, 0.72);
+  --wood-label-border: rgba(255, 248, 241, 0.35);
+}
+
+:root[data-wood-species="Pine"],
+.frame-visual[data-wood-species="Pine"],
+.board-layout[data-wood-species="Pine"] {
   --wood-frame-light: #f4e1b2;
   --wood-frame-mid: #e6c788;
   --wood-frame-dark: #caa56b;
@@ -43,7 +65,9 @@
   --wood-label-border: rgba(255, 248, 236, 0.35);
 }
 
-:root[data-wood-species="Cherry"] {
+:root[data-wood-species="Cherry"],
+.frame-visual[data-wood-species="Cherry"],
+.board-layout[data-wood-species="Cherry"] {
   --wood-frame-light: #e7b19a;
   --wood-frame-mid: #c87863;
   --wood-frame-dark: #a55645;
@@ -61,7 +85,9 @@
   --wood-label-border: rgba(255, 240, 232, 0.35);
 }
 
-:root[data-wood-species="Walnut"] {
+:root[data-wood-species="Walnut"],
+.frame-visual[data-wood-species="Walnut"],
+.board-layout[data-wood-species="Walnut"] {
   --wood-frame-light: #a17b5e;
   --wood-frame-mid: #7b4f37;
   --wood-frame-dark: #563426;
@@ -79,7 +105,9 @@
   --wood-label-border: rgba(239, 227, 217, 0.25);
 }
 
-:root[data-wood-species="Maple"] {
+:root[data-wood-species="Maple"],
+.frame-visual[data-wood-species="Maple"],
+.board-layout[data-wood-species="Maple"] {
   --wood-frame-light: #f9f2df;
   --wood-frame-mid: #f0e4c8;
   --wood-frame-dark: #dcc9a1;
