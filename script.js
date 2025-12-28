@@ -83,6 +83,7 @@ const resultsFields = {
 };
 
 const boardLayout = {
+  container: document.querySelector(".board-layout"),
   diagram: document.querySelector(".board-layout__diagram"),
   stage: document.querySelector(".board-layout__stage"),
   board: document.querySelector(".board-layout__board"),
@@ -99,6 +100,7 @@ const boardLayout = {
 };
 
 const frameVisual = {
+  container: document.querySelector(".frame-visual"),
   diagram: document.querySelector(".frame-visual__diagram"),
   stage: document.querySelector(".frame-visual__stage"),
   outer: document.querySelector(".frame-visual__outer")
@@ -673,7 +675,19 @@ function handleWoodSpeciesChange(event) {
   }
 
   state.woodSpecies = nextSpecies;
-  document.documentElement.dataset.woodSpecies = nextSpecies;
+  applyWoodSpecies(nextSpecies);
+  updateFrameVisual();
+  updateBoardLayout();
+}
+
+function applyWoodSpecies(species) {
+  if (frameVisual.container) {
+    frameVisual.container.dataset.woodSpecies = species;
+  }
+  if (boardLayout.container) {
+    boardLayout.container.dataset.woodSpecies = species;
+  }
+  document.documentElement.dataset.woodSpecies = species;
 }
 
 Object.values(inputElements).forEach((input) => {
@@ -706,7 +720,7 @@ window.addEventListener("resize", () => {
 handleInputChange({ target: inputElements.clearance });
 handleInputChange({ target: inputElements.mouldingFaceWidth });
 updateUnitLabels();
-document.documentElement.dataset.woodSpecies = state.woodSpecies;
+applyWoodSpecies(state.woodSpecies);
 if (woodSpeciesSelect) {
   woodSpeciesSelect.value = state.woodSpecies;
 }
