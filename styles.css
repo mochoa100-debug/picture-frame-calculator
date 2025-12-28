@@ -518,6 +518,7 @@ select:focus {
 .placeholder-art {
   position: absolute;
   inset: 10px;
+  z-index: 1;
   border-radius: 2px;
   background-color: #f8f3ee;
   background-image:
