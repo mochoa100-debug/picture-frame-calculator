@@ -510,6 +510,21 @@ select:focus {
   box-shadow:
     inset 0 0 0 2px rgba(123, 86, 53, 0.35),
     inset 0 10px 18px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.frame-visual__artwork {
+  position: absolute;
+  inset: clamp(6px, 4%, 14px);
+  border-radius: 2px;
+  background-color: #f4f1ec;
+  background-image:
+    radial-gradient(circle at 20% 25%, rgba(96, 138, 140, 0.22) 0 35%, transparent 36%),
+    radial-gradient(circle at 78% 30%, rgba(191, 126, 92, 0.22) 0 28%, transparent 30%),
+    radial-gradient(circle at 70% 72%, rgba(187, 164, 94, 0.2) 0 32%, transparent 34%),
+    radial-gradient(circle at 30% 70%, rgba(117, 131, 166, 0.22) 0 26%, transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(236, 232, 225, 0.6));
+  box-shadow: inset 0 0 0 1px rgba(120, 110, 100, 0.12);
 }
 
 .frame-visual__piece {
