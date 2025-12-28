@@ -106,6 +106,16 @@ const frameVisual = {
   outer: document.querySelector(".frame-visual__outer")
 };
 
+const woodTextureTargets = [
+  ...document.querySelectorAll(".frame-visual__piece"),
+  boardLayout.board,
+  ...Object.values(boardLayout.blanks)
+].filter(Boolean);
+
+woodTextureTargets.forEach((element) => {
+  element.classList.add("wood-texture");
+});
+
 const copyBtn = document.querySelector("#copyBtn");
 const copyStatus = document.querySelector("#copyStatus");
 const roundingNotice = document.querySelector("#roundingNotice");
