@@ -17,9 +17,17 @@
   --wood-frame-grain-dark: rgba(146, 90, 52, 0.2);
   --wood-frame-border: rgba(110, 72, 42, 0.4);
   --wood-board-base: #e2c6a6;
-  --wood-board-grain: rgba(158, 106, 68, 0.14);
+  --wood-board-grain-1: rgba(158, 106, 68, 0.12);
+  --wood-board-grain-2: rgba(138, 92, 60, 0.1);
+  --wood-board-grain-3: rgba(176, 122, 82, 0.08);
+  --wood-board-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(118, 74, 40, 0.1));
+  --wood-board-noise: repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 6px);
   --wood-blank-base: #c0834c;
-  --wood-blank-grain: rgba(146, 90, 52, 0.32);
+  --wood-blank-grain-1: rgba(146, 90, 52, 0.32);
+  --wood-blank-grain-2: rgba(110, 68, 40, 0.28);
+  --wood-blank-grain-3: rgba(176, 118, 78, 0.22);
+  --wood-blank-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(90, 52, 28, 0.2));
+  --wood-blank-noise: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px);
   --wood-blank-border: rgba(95, 58, 30, 0.7);
   --wood-label-bg: rgba(36, 26, 19, 0.72);
   --wood-label-border: rgba(255, 248, 241, 0.35);
@@ -37,9 +45,17 @@
   --wood-frame-grain-dark: rgba(146, 90, 52, 0.2);
   --wood-frame-border: rgba(110, 72, 42, 0.4);
   --wood-board-base: #e2c6a6;
-  --wood-board-grain: rgba(158, 106, 68, 0.14);
+  --wood-board-grain-1: rgba(158, 106, 68, 0.12);
+  --wood-board-grain-2: rgba(138, 92, 60, 0.1);
+  --wood-board-grain-3: rgba(176, 122, 82, 0.08);
+  --wood-board-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(118, 74, 40, 0.1));
+  --wood-board-noise: repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 6px);
   --wood-blank-base: #c0834c;
-  --wood-blank-grain: rgba(146, 90, 52, 0.32);
+  --wood-blank-grain-1: rgba(146, 90, 52, 0.32);
+  --wood-blank-grain-2: rgba(110, 68, 40, 0.28);
+  --wood-blank-grain-3: rgba(176, 118, 78, 0.22);
+  --wood-blank-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(90, 52, 28, 0.2));
+  --wood-blank-noise: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px);
   --wood-blank-border: rgba(95, 58, 30, 0.7);
   --wood-label-bg: rgba(36, 26, 19, 0.72);
   --wood-label-border: rgba(255, 248, 241, 0.35);
@@ -57,9 +73,17 @@
   --wood-frame-grain-dark: rgba(195, 150, 90, 0.2);
   --wood-frame-border: rgba(152, 113, 66, 0.45);
   --wood-board-base: #edd9ac;
-  --wood-board-grain: rgba(190, 145, 88, 0.18);
-  --wood-blank-base: #d4ae72;
-  --wood-blank-grain: rgba(184, 134, 72, 0.26);
+  --wood-board-grain-1: rgba(190, 145, 88, 0.16);
+  --wood-board-grain-2: rgba(168, 128, 78, 0.12);
+  --wood-board-grain-3: rgba(206, 166, 104, 0.1);
+  --wood-board-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(140, 102, 58, 0.12));
+  --wood-board-noise: repeating-radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 6px);
+  --wood-blank-base: #d8b379;
+  --wood-blank-grain-1: rgba(184, 134, 72, 0.28);
+  --wood-blank-grain-2: rgba(162, 120, 64, 0.24);
+  --wood-blank-grain-3: rgba(208, 166, 104, 0.2);
+  --wood-blank-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(118, 82, 45, 0.2));
+  --wood-blank-noise: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px);
   --wood-blank-border: rgba(135, 96, 55, 0.6);
   --wood-label-bg: rgba(72, 52, 28, 0.72);
   --wood-label-border: rgba(255, 248, 236, 0.35);
@@ -68,19 +92,27 @@
 :root[data-wood-species="Cherry"],
 .frame-visual[data-wood-species="Cherry"],
 .board-layout[data-wood-species="Cherry"] {
-  --wood-frame-light: #e7b19a;
-  --wood-frame-mid: #c87863;
-  --wood-frame-dark: #a55645;
+  --wood-frame-light: #e2a98f;
+  --wood-frame-mid: #bf7059;
+  --wood-frame-dark: #8d4c3a;
   --wood-frame-sheen: rgba(255, 255, 255, 0.4);
   --wood-frame-shadow: rgba(140, 76, 63, 0.2);
   --wood-frame-grain-light: rgba(255, 255, 255, 0.1);
   --wood-frame-grain-dark: rgba(160, 78, 64, 0.22);
   --wood-frame-border: rgba(117, 63, 50, 0.5);
-  --wood-board-base: #e1b19d;
-  --wood-board-grain: rgba(158, 86, 70, 0.2);
-  --wood-blank-base: #c26e5a;
-  --wood-blank-grain: rgba(150, 72, 60, 0.28);
-  --wood-blank-border: rgba(110, 60, 50, 0.6);
+  --wood-board-base: #d8a48b;
+  --wood-board-grain-1: rgba(146, 78, 60, 0.18);
+  --wood-board-grain-2: rgba(126, 66, 52, 0.14);
+  --wood-board-grain-3: rgba(168, 96, 74, 0.12);
+  --wood-board-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(120, 62, 46, 0.14));
+  --wood-board-noise: repeating-radial-gradient(circle at 18% 32%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 6px);
+  --wood-blank-base: #b7654f;
+  --wood-blank-grain-1: rgba(130, 64, 52, 0.3);
+  --wood-blank-grain-2: rgba(108, 54, 44, 0.26);
+  --wood-blank-grain-3: rgba(160, 90, 70, 0.22);
+  --wood-blank-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(88, 44, 34, 0.22));
+  --wood-blank-noise: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px);
+  --wood-blank-border: rgba(92, 50, 40, 0.62);
   --wood-label-bg: rgba(56, 28, 24, 0.75);
   --wood-label-border: rgba(255, 240, 232, 0.35);
 }
@@ -96,10 +128,18 @@
   --wood-frame-grain-light: rgba(255, 255, 255, 0.08);
   --wood-frame-grain-dark: rgba(90, 58, 42, 0.36);
   --wood-frame-border: rgba(53, 32, 23, 0.65);
-  --wood-board-base: #8a644b;
-  --wood-board-grain: rgba(75, 48, 34, 0.34);
-  --wood-blank-base: #6a4431;
-  --wood-blank-grain: rgba(58, 36, 26, 0.4);
+  --wood-board-base: #7a5640;
+  --wood-board-grain-1: rgba(56, 34, 24, 0.36);
+  --wood-board-grain-2: rgba(44, 26, 20, 0.3);
+  --wood-board-grain-3: rgba(88, 56, 40, 0.28);
+  --wood-board-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(36, 22, 16, 0.28));
+  --wood-board-noise: repeating-radial-gradient(circle at 22% 28%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 6px);
+  --wood-blank-base: #5a3a2a;
+  --wood-blank-grain-1: rgba(46, 28, 20, 0.42);
+  --wood-blank-grain-2: rgba(34, 20, 14, 0.36);
+  --wood-blank-grain-3: rgba(82, 52, 38, 0.32);
+  --wood-blank-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(24, 14, 10, 0.3));
+  --wood-blank-noise: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 4px);
   --wood-blank-border: rgba(42, 26, 18, 0.75);
   --wood-label-bg: rgba(28, 16, 11, 0.8);
   --wood-label-border: rgba(239, 227, 217, 0.25);
@@ -116,10 +156,18 @@
   --wood-frame-grain-light: rgba(255, 255, 255, 0.08);
   --wood-frame-grain-dark: rgba(198, 170, 128, 0.16);
   --wood-frame-border: rgba(158, 132, 94, 0.35);
-  --wood-board-base: #f2e7cf;
-  --wood-board-grain: rgba(201, 176, 138, 0.16);
-  --wood-blank-base: #e6d4b5;
-  --wood-blank-grain: rgba(190, 160, 120, 0.18);
+  --wood-board-base: #f5edd8;
+  --wood-board-grain-1: rgba(194, 170, 132, 0.12);
+  --wood-board-grain-2: rgba(208, 186, 150, 0.08);
+  --wood-board-grain-3: rgba(182, 160, 124, 0.06);
+  --wood-board-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(152, 124, 90, 0.1));
+  --wood-board-noise: repeating-radial-gradient(circle at 24% 26%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 6px);
+  --wood-blank-base: #ead9bf;
+  --wood-blank-grain-1: rgba(176, 150, 114, 0.16);
+  --wood-blank-grain-2: rgba(194, 172, 138, 0.12);
+  --wood-blank-grain-3: rgba(164, 140, 108, 0.1);
+  --wood-blank-lighting: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(132, 106, 78, 0.16));
+  --wood-blank-noise: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px);
   --wood-blank-border: rgba(150, 126, 92, 0.4);
   --wood-label-bg: rgba(64, 48, 34, 0.72);
   --wood-label-border: rgba(255, 255, 255, 0.5);
@@ -543,12 +591,23 @@ select:focus {
   border-radius: 0;
   border: 1px solid var(--wood-frame-border);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(125, 82, 47, 0.08)),
+    var(--wood-board-lighting),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.12) 0 16px,
-      var(--wood-board-grain) 16px 32px
+      var(--wood-board-grain-1) 0 12px,
+      transparent 12px 20px
     ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 6px,
+      var(--wood-board-grain-2) 6px 14px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 18px,
+      var(--wood-board-grain-3) 18px 30px
+    ),
+    var(--wood-board-noise),
     var(--wood-board-base);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.6),
@@ -600,12 +659,23 @@ select:focus {
   border-radius: 0;
   border: 1px solid var(--wood-blank-border);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(110, 70, 40, 0.18)),
+    var(--wood-blank-lighting),
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.14) 0 8px,
-      var(--wood-blank-grain) 8px 16px
+      var(--wood-blank-grain-1) 0 10px,
+      transparent 10px 18px
     ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 6px,
+      var(--wood-blank-grain-2) 6px 14px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 20px,
+      var(--wood-blank-grain-3) 20px 32px
+    ),
+    var(--wood-blank-noise),
     var(--wood-blank-base);
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.55),
