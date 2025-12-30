@@ -2,8 +2,8 @@
   unit: "imperial",
   woodSpecies: "Oak",
   inputs: {
-    artworkWidth: { raw: "", value: null, parseError: "" },
-    artworkHeight: { raw: "", value: null, parseError: "" },
+    artworkWidth: { raw: "4", value: 4, parseError: "" },
+    artworkHeight: { raw: "6", value: 6, parseError: "" },
     mouldingFaceWidth: { raw: "1", value: 1, parseError: "" },
     rabbetDepth: { raw: "0.25", value: 0.25, parseError: "" },
     clearance: { raw: "0.125", value: 0.125, parseError: "" },
@@ -131,6 +131,11 @@ const UNIT_CONFIG = {
     short: "mm",
     decimals: 0
   }
+};
+
+const ARTWORK_DEFAULTS = {
+  imperial: { width: 4, height: 6 },
+  metric: { width: 100, height: 150 }
 };
 
 const INCH_TO_MM = 25.4;
@@ -570,6 +575,37 @@ function updateRoundingNotice() {
   }
 }
 
+function setArtworkDefaults(unit) {
+  const defaults = ARTWORK_DEFAULTS[unit];
+  if (!defaults) {
+    return;
+  }
+
+  const widthValue = defaults.width;
+  const heightValue = defaults.height;
+  const formattedWidth = formatInputValue(widthValue);
+  const formattedHeight = formatInputValue(heightValue);
+
+  state.inputs.artworkWidth.value = widthValue;
+  state.inputs.artworkWidth.raw = formattedWidth;
+  state.inputs.artworkWidth.parseError = "";
+  state.inputs.artworkHeight.value = heightValue;
+  state.inputs.artworkHeight.raw = formattedHeight;
+  state.inputs.artworkHeight.parseError = "";
+
+  inputElements.artworkWidth.value = formattedWidth;
+  inputElements.artworkHeight.value = formattedHeight;
+}
+
+function isDefaultArtworkSize(unit) {
+  const defaults = ARTWORK_DEFAULTS[unit];
+  if (!defaults) {
+    return false;
+  }
+  return state.inputs.artworkWidth.value === defaults.width
+    && state.inputs.artworkHeight.value === defaults.height;
+}
+
 function buildCopyText() {
   const iow = formatNumber(state.derived.insideOpeningWidth);
   const ioh = formatNumber(state.derived.insideOpeningHeight);
@@ -647,8 +683,14 @@ function handleUnitChange(event) {
   state.unit = nextUnit;
   updateUnitLabels();
 
+  const shouldApplyDefaults = isDefaultArtworkSize(previousUnit)
+    || (state.inputs.artworkWidth.value === null && state.inputs.artworkHeight.value === null);
+
   Object.entries(state.inputs).forEach(([key, input]) => {
     if (key === "costPerBoardFoot") {
+      return;
+    }
+    if (shouldApplyDefaults && (key === "artworkWidth" || key === "artworkHeight")) {
       return;
     }
     if (input.value === null) {
@@ -661,6 +703,10 @@ function handleUnitChange(event) {
     input.parseError = "";
     inputElements[key].value = input.raw;
   });
+
+  if (shouldApplyDefaults) {
+    setArtworkDefaults(nextUnit);
+  }
 
   validateInputs();
 
@@ -727,6 +773,9 @@ window.addEventListener("resize", () => {
   updateBoardLayout();
 });
 
+setArtworkDefaults(state.unit);
+handleInputChange({ target: inputElements.artworkWidth });
+handleInputChange({ target: inputElements.artworkHeight });
 handleInputChange({ target: inputElements.clearance });
 handleInputChange({ target: inputElements.mouldingFaceWidth });
 updateUnitLabels();
