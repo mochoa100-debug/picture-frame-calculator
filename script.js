@@ -597,15 +597,6 @@ function setArtworkDefaults(unit) {
   inputElements.artworkHeight.value = formattedHeight;
 }
 
-function isDefaultArtworkSize(unit) {
-  const defaults = ARTWORK_DEFAULTS[unit];
-  if (!defaults) {
-    return false;
-  }
-  return state.inputs.artworkWidth.value === defaults.width
-    && state.inputs.artworkHeight.value === defaults.height;
-}
-
 function buildCopyText() {
   const iow = formatNumber(state.derived.insideOpeningWidth);
   const ioh = formatNumber(state.derived.insideOpeningHeight);
@@ -683,14 +674,8 @@ function handleUnitChange(event) {
   state.unit = nextUnit;
   updateUnitLabels();
 
-  const shouldApplyDefaults = isDefaultArtworkSize(previousUnit)
-    || (state.inputs.artworkWidth.value === null && state.inputs.artworkHeight.value === null);
-
   Object.entries(state.inputs).forEach(([key, input]) => {
     if (key === "costPerBoardFoot") {
-      return;
-    }
-    if (shouldApplyDefaults && (key === "artworkWidth" || key === "artworkHeight")) {
       return;
     }
     if (input.value === null) {
@@ -703,10 +688,6 @@ function handleUnitChange(event) {
     input.parseError = "";
     inputElements[key].value = input.raw;
   });
-
-  if (shouldApplyDefaults) {
-    setArtworkDefaults(nextUnit);
-  }
 
   validateInputs();
 
@@ -773,12 +754,21 @@ window.addEventListener("resize", () => {
   updateBoardLayout();
 });
 
-setArtworkDefaults(state.unit);
+const initialUnit = Array.from(unitInputs).find((input) => input.checked)?.value;
+if (UNIT_CONFIG[initialUnit]) {
+  state.unit = initialUnit;
+}
+updateUnitLabels();
+const widthIsEmpty = inputElements.artworkWidth.value.trim() === "";
+const heightIsEmpty = inputElements.artworkHeight.value.trim() === "";
+if (widthIsEmpty && heightIsEmpty) {
+  setArtworkDefaults(state.unit);
+}
+
 handleInputChange({ target: inputElements.artworkWidth });
 handleInputChange({ target: inputElements.artworkHeight });
 handleInputChange({ target: inputElements.clearance });
 handleInputChange({ target: inputElements.mouldingFaceWidth });
-updateUnitLabels();
 applyWoodSpecies(state.woodSpecies);
 if (woodSpeciesSelect) {
   woodSpeciesSelect.value = state.woodSpecies;
